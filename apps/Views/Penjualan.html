@@ -1,0 +1,247 @@
+<div class="row clearfix" ng-init="Init()">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    Daftar Penjualan
+                </h2>
+                <ul class="header-dropdown m-r--5">
+                    <button type="button" class="btn btn-default waves-effect m-r-20 pull-right" data-toggle="modal" data-target="#AddUser">Add Penjualan</button>
+                </ul>
+            </div>
+            <div class="body table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>STT</th>
+                            <th>Id Pengirim</th>
+                            <th>Id Penerima</th>
+                            <th>Id Kota</th>
+                            <th>Harga</th>
+                            <th>Jenis Berat</th>
+                            <th>Jenis Pembayaran</th>
+                            <th>Jenis Port</th>
+                            <th>Pembayar</th>
+                            <th>Biaya Paking</th>
+                            <th>Pajak</th>
+                            <th>Lain-lain</th>
+                            <th>User Id</th>
+                            <th>Ubah Tanggal</th>
+                            <th>Perbarui Tanggal</th>
+                            <th>Actived</th>
+                            <th>Keterangan Bayar</th>
+                            <th>Jenis Barang</th>
+                            <th>Nomor DO</th>
+                            <th>Keterangan</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in DataPenjualan">
+                            <th scope="row">{{$index+1}}</th>
+                            <td>{{item.STT}}</td>
+                            <td>{{item.ShiperID}}</td>
+                            <td>{{item.ReciverID}}</td>
+                            <td>{{item.CityID}}</td>
+                            <td>{{item.Price}}</td>
+                            <td>{{item.TypeOfWeight}}</td>
+                            <td>{{item.PayType}}</td>
+                            <td>{{item.PortType}}</td>
+                            <td>{{item.CustomerIdIsPay}}</td>
+                            <td>{{item.PackingCosts}}</td>
+                            <td>{{item.Tax}}</td>
+                            <td>{{item.Etc}}</td>
+                            <td>{{item.Actived}}</td>
+                            <td>{{item.IsPaid}}</td>
+                            <td>{{item.Content}}</td>
+                            <td>{{item.DoNumber}}</td>
+                            <td>{{item.Note}}</td>
+                            <td>
+                                <ul class="header-dropdown">
+                                    <li class="dropdown">
+                                        <a href="javascript:void(0);" class="dropdown-toggle" title="Action" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            <i class="material-icons">view_agenda</i>
+                                        </a>
+                                        <ul class="dropdown-menu pull-right">
+                                            <li>
+                                                <button type="button" ng-click="SelectedUser(item)" class="btn btn-default waves-effect m-r-20 pull-right" data-toggle="modal" data-target="#EditCity"><i class="material-icons">edit</i></button>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);">Another action</a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);">Something else here</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="AddUser" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="defaultModalLabel">Add Penjualan</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row clearfix">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="InputSTT.STT" class="form-control" placeholder="STT" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="InputPengirim.ShiperID" class="form-control" placeholder="Pengirim" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="InputPenerima.ReciverID" class="form-control" placeholder="Penerima" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="InputIdKota.CityID" class="form-control" placeholder="ID Kota" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="InputHarga.Price" class="form-control" placeholder="Harga" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="InputJenisBerat.TypeOfWeight" class="form-control" placeholder="Jenis Berat" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="InputJenisPembayaran.PayType" class="form-control" placeholder="Jenis Pembayaran" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="InputJenisPort.PortType" class="form-control" placeholder="Jenis Port" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="InputPembayar.CustomerIdIsPay" class="form-control" placeholder="Pembayar" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="InputBiayaPaking.PackingCosts" class="form-control" placeholder="Biaya Packing" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="InputPajak.Tax" class="form-control" placeholder="Pajak" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="InputLainlain.Etc" class="form-control" placeholder="Lain-lain" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="InputIdUser.UserID" class="form-control" placeholder="UserID" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="InputUbahTgl.ChangeDate" class="form-control" placeholder="Ubah Tanggal" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="InputUpdateTgl.UpdateDate" class="form-control" placeholder="Perbarui Tanggal" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="InputActived.Actived" class="form-control" placeholder="Actived" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="InputKeteranganBayar.IsPaid" class="form-control" placeholder="Keterangan Bayar" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="InputJenisBarang.Content" class="form-control" placeholder="Jenis Barang" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="InputNomorDo.DoNumber" class="form-control" placeholder="Nomer Do" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="InputKeterangan.Note" class="form-control" placeholder="Keterangan" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" ng-click="InsertDataUser()" class="btn btn-link waves-effect" data-dismiss="modal">SAVE CHANGES</button>
+                <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="EditCity" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="defaultModalLabel">Edit City</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row clearfix">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="SelectedItemCity.Province" class="form-control" placeholder="Provinsi" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="SelectedItemCity.Regency" class="form-control" placeholder="Kabupaten" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="SelectedItemCity.CityName" class="form-control" placeholder="Nama Kota" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="SelectedItemCity.CityCode" class="form-control" placeholder="Kode Kota" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" ng-click="UpdateDataCity()" class="btn btn-link waves-effect" data-dismiss="modal">SAVE CHANGES</button>
+                <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,163 @@
+<div class="row clearfix" ng-init="Init()">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    Daftar Prices
+                </h2>
+                <ul class="header-dropdown m-r--5">
+                    <button type="button" class="btn btn-default waves-effect m-r-20 pull-right" data-toggle="modal" data-target="#AddUser">Add Prices</button>
+                </ul>
+            </div>
+            <div class="body table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Id</th>
+                            <th>Id Penerima</th>
+                            <th>Id Pengirim</th>
+                            <th>Jenis Port</th>
+                            <th>Jenis Pembayaran</th>
+                            <th>Kota Pengirim</th>
+                            <th>Kota Penerima</th>
+                            <th>Harga</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in DataPrices">
+                            <th scope="row">{{$index+1}}</th>
+                            <td>{{item.Id}}</td>
+                            <td>{{item.ShiperId}}</td>
+                            <td>{{item.ReciverId}}</td>
+                            <td>{{item.PortType}}</td>
+                            <td>{{item.PayType}}</td>
+                            <td>{{item.FromCity}}</td>
+                            <td>{{item.ToCity}}</td>
+                            <td>{{item.Price}}</td>
+                            <td>
+                                <ul class="header-dropdown">
+                                    <li class="dropdown">
+                                        <a href="javascript:void(0);" class="dropdown-toggle" title="Action" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            <i class="material-icons">view_agenda</i>
+                                        </a>
+                                        <ul class="dropdown-menu pull-right">
+                                            <li>
+                                                <button type="button" ng-click="SelectedUser(item)" class="btn btn-default waves-effect m-r-20 pull-right" data-toggle="modal" data-target="#EditCity"><i class="material-icons">edit</i></button>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);">Another action</a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);">Something else here</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="AddUser" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="defaultModalLabel">Add City</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row clearfix">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="InputId.Id" class="form-control" placeholder="Id" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="InputShiperId.ShiperId" class="form-control" placeholder="Id Penerima" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="InputReciverId.ReciverId" class="form-control" placeholder="Id Pengirim" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="InputPortType.PortType" class="form-control" placeholder="Jenis Port" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="InputPayType.PayType" class="form-control" placeholder="Jenis Pembayaran" />
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="InputFromCity.FromCity" class="form-control" placeholder="Kota Pengirim" />
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="InputToCity.ToCity" class="form-control" placeholder="Kota Penerima" />
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="InputPrice.Price" class="form-control" placeholder="Harga" />
+                        </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" ng-click="InsertDataUser()" class="btn btn-link waves-effect" data-dismiss="modal">SAVE CHANGES</button>
+                <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="EditCity" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="defaultModalLabel">Edit City</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row clearfix">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="SelectedItemCity.Province" class="form-control" placeholder="Provinsi" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="SelectedItemCity.Regency" class="form-control" placeholder="Kabupaten" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="SelectedItemCity.CityName" class="form-control" placeholder="Nama Kota" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="SelectedItemCity.CityCode" class="form-control" placeholder="Kode Kota" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" ng-click="UpdateDataCity()" class="btn btn-link waves-effect" data-dismiss="modal">SAVE CHANGES</button>
+                <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+    </div>
+</div>
