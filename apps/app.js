@@ -29,7 +29,7 @@ angular.module("app", ["ngRoute","Ctrl"])
     })
     .when("/Penjualan", {
         templateUrl : "apps/Views/Penjualan.html",
-        controller:"InvoicesController"
+        controller:"PenjualanController"
     })
 
     .when("/Prices", {
@@ -40,6 +40,16 @@ angular.module("app", ["ngRoute","Ctrl"])
     .when("/Collies", {
         templateUrl : "apps/Views/Collies.html",
         controller:"ColliesController"
+    })
+
+    .when("/AddPenjualan", {
+        templateUrl : "apps/Views/Create.html",
+        controller:"PenjualanController"
+    })
+
+    .when("/form", {
+        templateUrl : "apps/Views/form.html",
+        controller:""
     })
     ;
 });
