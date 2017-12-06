@@ -5,28 +5,26 @@
                 <h2>
                     Penjualan
                 </h2>
-                <ul class="header-dropdown m-r--5">
-                    <button type="button" class="btn btn-default waves-effect m-r-20 pull-right" data-toggle="modal" data-target="#AddColi">Coly</button>
-                </ul>
-            </div>
-            <div class="body table-responsive">
-
                 <div class="row clearfix">
                     <div class="col-md-4 pull-right">
-
+                        <label for="email_address">No. STT:</label>
                         <div class="form-group">
                             <div class="form-line">
-                                <input type="text" class="form-control" placeholder="Isi">
+                                <input type="text" class="form-control" ng-model="DataInputPenjualan.STT" disabled>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="body table-responsive">
+
+
                 <div class="row clearfix">
                     <div class="col-md-4">
                         <label for="email_address">Pengirim:</label>
                         <div class="form-group">
                             <div class="form-line">
-                                <textarea rows="4" class="form-control no-resize" placeholder="Please type what you want..."></textarea>
+                                <select class="form-control" ng-options="item as item.Name for item in DataCustomer track by item.Id" ng-model="SelectedItemCustomerAsal" ng-change="SetAsal(SelectedItemCustomerAsal)"></select>
                             </div>
                         </div>
                     </div>
@@ -37,30 +35,52 @@
                         <label for="email_address">Penerima:</label>
                         <div class="form-group">
                             <div class="form-line">
-                                <textarea rows="4" class="form-control no-resize" placeholder="Please type what you want..."></textarea>
+                                <select class="form-control" ng-options="item as item.Name for item in DataCustomer track by item.Id" ng-model="SelectedItemCustomerTujuan" ng-change="SetTujuan(SelectedItemCustomerTujuan)"></select>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="row clearfix">
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <label for="email_address">Asal
                             <sub>Org</sub>
                         </label>
                         <div class="form-group">
                             <div class="form-line">
-                                <select class="form-control" ng-options="item as item.CityName for item in DataCity track by item.Id" ng-model="SelectedItemCityAsal"></select>
+                                <select class="form-control" ng-options="item as item.CityCode for item in DataCity track by item.Id" ng-model="SelectedItemCityAsal"></select>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <label for="email_address">Tujuan
                             <sub>Dest</sub>
                         </label>
                         <div class="form-group">
                             <div class="form-line">
-                                <select class="form-control" ng-options="item as item.CityName for item in DataCity track by item.Id" ng-model="SelectedItemCityTujuan"></select>
+                                <select class="form-control" ng-options="item as item.CityCode for item in DataCity track by item.Id" ng-model="SelectedItemCityTujuan"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label for="Berat">Berat
+                                <sub>Weight</sub>
+                            </label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" class="form-control" placeholder="Berat (Kg)" ng-model="DataInputPenjualan.Weight">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label for="Berat">Koli
+                                    <sub>Colli</sub>
+                                </label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" class="form-control" placeholder="Banyaknya" ng-model="DataInputPenjualan.Colly">
                             </div>
                         </div>
                     </div>
@@ -71,7 +91,7 @@
                         </label>
                         <div class="form-group">
                             <div class="form-line">
-                                <input type="text" class="form-control" placeholder="Isi">
+                                <input type="text" class="form-control" placeholder="Keterangan Isi" ng-model="DataInputPenjualan.Content">
                             </div>
                         </div>
                     </div>
@@ -81,16 +101,11 @@
                 <div class="row clearfix">
                     <div class="col-md-4">
                         <label for="email_address">Status Pembayaran
-                            <sup>Type Pament</sup>
+                            <sub>Type Pament</sub>
                         </label>
                         <div class="form-group">
                             <div class="form-line">
-                                <select class="form-control show-tick">
-                                    <option value="">-- Please select --</option>
-                                    <option value="10">Kredit</option>
-                                    <option value="20">Tunai</option>
-
-                                </select>
+                                <select class="form-control" ng-options="item as item.status for item in DataStatusPembayaran track by item.status" ng-model="DataInputPenjualan.PayType"></select>
                             </div>
                         </div>
                     </div>
@@ -99,106 +114,63 @@
                         </label>
                         <div class="form-group">
                             <div class="form-line">
-                                <select class="form-control show-tick">
-                                    <option value="">-- Please select --</option>
-                                    <option value="10">Laut</option>
-                                    <option value="20">Udara</option>
-
-                                </select>
+                                <select class="form-control" ng-options="item as item.port for item in DataVia track by item.port" ng-model="DataInputPenjualan.PortType" ng-change="SetHarga()"></select>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-5">
                         <label for="email_address">Surat Jalan
-                            <sup>DO</sup>
+                            <sub>DO</sub>
                         </label>
                         <div class="form-group">
                             <div class="form-line">
-                                <input type="text" class="form-control" placeholder="M3">
+                                <input type="text" class="form-control" placeholder="Do Number" ng-model="DataInputPenjualan.DoNumber">
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="row clearfix">
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <ul class="list-group">
                             <li class="list-group-item">Tarif
-                                <span class="badge bg-pink">14 new</span>
+                                <span class="badge bg-pink">{{DataInputPenjualan.Price.Price|currency:"Rp"}}</span>
                             </li>
                             <li class="list-group-item">Biaya
-                                <span class="badge bg-cyan">99 read</span>
+                                <span class="badge bg-cyan">{{DataInputPenjualan.Biaya|currency:"Rp"}}</span>
                             </li>
                             <li class="list-group-item">Biaya Packing
-                                <span class="badge bg-teal">99+</span>
+                                <input type="text" class="form-control" placeholder="Packing Costs" ng-model="DataInputPenjualan.PackingCosts" ng-change="Packing()">
                             </li>
                             <li class="list-group-item">Biaya Lain-lain
-                                <span class="badge bg-orange">21</span>
+                                <input type="text" class="form-control" placeholder="Etc" ng-model="DataInputPenjualan.Etc" ng-change="Etc()">
                             </li>
                             <li class="list-group-item">PPN 10%
-                                <span class="badge bg-purple">18</span>
+                                <input type="text" class="form-control" placeholder="Tax" ng-model="DataInputPenjualan.Tax" ng-change="Tax()">
                             </li>
                             <li class="list-group-item">
                                 <b>Total Biaya</b>
-                                <span class="badge bg-purple">18</span>
+                                <span class="badge bg-purple">{{DataInputPenjualan.Total|currency:"Rp"}}</span>
                             </li>
                         </ul>
                     </div>
 
-                    <div class="col-md-8">
+                    <div class="col-md-7">
                         <label for="email_address">Keterangan
                             <sup>Note</sup>
                         </label>
                         <div class="form-group">
                             <div class="form-line">
-                                <textarea rows="6" class="form-control no-resize" placeholder="Please type what you want..."></textarea>
+                                <textarea rows="6" class="form-control no-resize" placeholder="Please type what you want..." ng-model="DataInputPenjualan.Note"></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" ng-click="InsertDataUser()" class="btn btn-link waves-effect" data-dismiss="modal">SAVE CHANGES</button>
+                    <button type="button" ng-click="InsertPenjualan()" class="btn btn-link waves-effect" data-dismiss="modal">SAVE CHANGES</button>
                     <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<div class="modal fade" id="AddColi" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="defaultModalLabel">Edit City</h4>
-            </div>
-            <div class="modal-body">
-
-
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>STT</th>
-                            <th>Nomor Koli</th>
-                            <th>Berat</th>
-                            <th>Panjang</th>
-                            <th>Tinggi</th>
-                            <th>Lebar</th>
-                            <th>Jenis Berat</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" ng-click="UpdateDataCity()" class="btn btn-link waves-effect" data-dismiss="modal">SAVE CHANGES</button>
-                <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
             </div>
         </div>
     </div>
