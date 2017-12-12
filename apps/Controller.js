@@ -14,7 +14,7 @@ angular.module("Ctrl", [])
                 url: Getauth
             })
             .then(function(response) {
-                if (response.data.Session.Email == undefined) {
+                if (response.data.Session == null) {
                     window.location.href = 'System/pages/sign-in.html';
                 } else
                     $rootScope.Session = response.data.Session;
@@ -639,7 +639,22 @@ angular.module("Ctrl", [])
             })
 
     }
+    $scope.Print = function(item) {
+        var Data = item;
+        var UrlCetak = "api/datas/cetakInv.php";
+        $http({
+                method: "post",
+                url: UrlCetak,
+                data: Data
+            })
+            .then(function(response) {
+                if (response.data.message == "Success")
+                    window.open('apps/Report/Invoice.html', '_blank');
+            }, function(error) {
+                alert(error.message);
+            })
 
+    }
 
 })
 

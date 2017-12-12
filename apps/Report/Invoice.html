@@ -15,134 +15,228 @@
 
 </head>
 
-<body ng-app="Ctrl" ng-controller="NotaController">
+<body ng-app="Ctrl" ng-controller="InvoiceController">
     <div id="page-wrap" ng-init="Init()">
-
-
-        <div id="identity">
-
-            <img src="images/KopTrireksa.png" alt="logo" width="200" />
-
-            <div class="pull-right">
-                No.STT:
-                <b>{{DataNota.STT}}</b>
+        <div id="col-12" style="margin:0 0 20px 0;">
+            <center>
+                <h1>K W I T A N S I</h1>
+            </center>
+        </div>
+        <div id="col-12">
+            <div id="col-2">
+                Nomor
+            </div>
+            <div id="col-1" style="text-align: right!important;">
+                :
+            </div>
+            <div id="col-9">
+                {{DataInvoice.Number}}
             </div>
 
         </div>
-        <br>
-
-        <div style="clear:both"></div>
-        <div id="col-left">
-            Shiper:<br> {{DataNota.ShiperName}}
+        <div id="col-12">
+            <div id="col-2">
+                Telah Terima Dari
+            </div>
+            <div id="col-1" style="text-align: right!important;">
+                :
+            </div>
+            <div id="col-9">
+                {{DataInvoice.CustomerName}}
+            </div>
         </div>
-        <div class="pull-right">
-            Reciver:<br> {{DataNota.ReciverName}}
+        <div id="col-12" style="margin:0 0 20px 0;">
+            <div id="col-2">
+                Terbilang
+            </div>
+            <div id="col-1" style="text-align: right!important;">
+                :
+            </div>
+            <div id="col-9">
+                {{DataInvoice.Terbilang}} Rupiah
+            </div>
         </div>
+        <div id="col-12">
+            <div id="col-2">
+                Untuk Pembayaran
+            </div>
+            <div id="col-1" style="text-align: right!important;">
+                :
+            </div>
+            <div id="col-9">
+                Jasa Pengiriman Barang Milik {{DataInvoice.CustomerName}} (Nota Terlampir)
+            </div>
+        </div>
+        <div id="col-12" style="margin:0 0 20px 0;">
+            <table id="items">
+                <tr>
+                    <th>STT</th>
+                    <th>Penerima</th>
+                    <th>Tujuan</th>
+                    <th>No. DO</th>
+                    <th>Colly</th>
+                    <th>Berat</th>
+                    <th>Tarif</th>
+                    <th>Biaya</th>
+                    <th>Via</th>
+                </tr>
+                <tr ng-repeat="item in DataInvoice.InvoiceDetail">
+                    <td>{{item.STT}}</td>
+                    <td>{{item.ReciverName}}</td>
+                    <td>{{item.CityName}}</td>
+                    <td>{{item.DoNumber}}</td>
+                    <td>{{item.Colly}}</td>
+                    <td>{{item.Weight}}</td>
+                    <td>{{item.Price}}</td>
+                    <td>{{item.Total|currency: 'Rp. '}}</td>
+                    <td>{{item.PortType}}</td>
+                </tr>
+                <tr>
+                    <td colspan="7" style="text-align: center!important;">Total</td>
+                    <td>{{DataInvoice.Total|currency: 'Rp. '}}</td>
+                    <td></td>
+                </tr>
 
-        <div id="col-12" style="margin:0 0 10px 0;">
-            <div id="col-2">Asal:<br>DJJ</div>
-            <div id="col-2">Tujuan:<br>{{DataNota.CityName}}</div>
-            <div id="col-5" class="pull-right">
+            </table>
+        </div>
+        <div id="col-12">
+            <div id="col-6">
                 <div id="col-12">
-                    <div id="col-6">Content:<br>{{DataNota.Content}}</div>
-                    <div id="col-2">Berat:<br>{{DataNota.Weight}}</div>
-                    <div id="col-2">Koli:<br>{{DataNota.Colly}}</div>
-                    <div id="col-2">Volume:</div>
+                    <div id="col-2"></div>
+                    <div id="col-10" class="pull-right">
+                        <div id="col-12">
+                            Mohon Tagihan Dapat di Transfer Ke:
+                        </div>
+                        <div id="col-12">
+                            <b>Bank. Mandiri KC. Jayapura</b>
+                        </div>
+                        <div id="col-12">
+                            <b>An. CV. Trireksa Papua Cargo</b>
+                        </div>
+                        <div id="col-12">
+                            <b>No. Rek. 154-00-1376511-4</b>
+                        </div>
+                        <div id="col-12">
+                            Setelah di transfer Mohon Konfirmasi ke:
+                        </div>
+                        <div id="col-12">
+                            <b>No HP. 0822 3803 5392</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="col-6">
+                <div id="col-12">
+                    <div id="col-6"></div>
+                    <div id="col-6" class="pull-right" style="text-align: center!important;">
+                        <div id="col-12" style="margin:0 0 50px 0;">
+                            Jayapura, {{}}
+                        </div>
+                        <div id="col-12">
+                            <b><u>Afriani</u></b>
+                        </div>
+                        <div id="col-12">
+                            Bendahara
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
-        <div id="col-12" style="margin:0 0 20px 0;">
-            <div id="col-4">Status Pembayaran: <br>{{DataNota.PayType}}</div>
-            <div id="col-4">via: <br>{{DataNota.PortType}}</div>
-            <div id="col-4">Surat Jalan: <br>{{DataNota.DoNumber}}</div>
-        </div>
-        <div id="col-12" style="margin:0 0 20px 0;">
-            <div id="col-4">
-                <div id="12">
-                    <div id="col-6" style="text-align: right!important;">Tarif :</div>
-                    <div id="col-2" style="text-align: right!important;">Rp.</div>
-                    <div id="col-4" style="text-align: right!important;">{{DataNota.Price}}</div>
-
-                </div>
-                <div id="12">
-                    <div id="col-6" style="text-align: right!important;">Biaya :</div>
-                    <div id="col-2" style="text-align: right!important;">Rp.</div>
-                    <div id="col-4" style="text-align: right!important;">{{DataNota.Cost}}</div>
-
-                </div>
-                <div id="12">
-                    <div id="col-6" style="text-align: right!important;">Biaya Packing :</div>
-                    <div id="col-2" style="text-align: right!important;">Rp.</div>
-                    <div id="col-4" style="text-align: right!important;">{{DataNota.PackingCosts}}</div>
-
-                </div>
-                <div id="12">
-                    <div id="col-6" style="text-align: right!important;">Biaya Lain-lain :</div>
-                    <div id="col-2" style="text-align: right!important;">Rp.</div>
-                    <div id="col-4" style="text-align: right!important;">{{DataNota.Etc}}</div>
-
-                </div>
-                <div id="12">
-                    <div id="col-6" style="text-align: right!important;">PPN 10% :</div>
-                    <div id="col-2" style="text-align: right!important;">Rp.</div>
-                    <div id="col-4" style="text-align: right!important;">{{DataNota.Tax}}%</div>
-                </div>
-                <div id="12">
-                    <div id="col-6" style="text-align: right!important;">Total :</div>
-                    <div id="col-2" style="text-align: right!important;">Rp.</div>
-                    <div id="col-4" style="text-align: right!important;">{{DataNota.Total}}</div>
-
-                </div>
-
-            </div>
-            <div id="col-6" class="pull-right">Keterangan: <br>{{DataNota.Note}}</div>
-        </div>
-        <div id="col-12">
-            <div id="col-4" style="text-align: center!important;">
-                <div id="col-12" style="margin-bottom:30px!important;">Pengirim</div>
-                <div id="col-12">{{DataNota.ShiperName}}</div>
-            </div>
-            <div id="col-4" style="text-align: center!important;">
-                <div id="col-12" style="margin-bottom:30px!important;">Penerima</div>
-                <div id="col-12">(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)
-                </div>
-            </div>
-            <div id="col-4" style="text-align: center!important;">
-                <div id="col-12" style="margin-bottom:30px!important;">Petugas</div>
-                <div id="col-12">Ajekris Y. Kungkung</div>
-            </div>
-
-        </div>
-        <div id="col-12">
-
-            <div id="terms">
-                <h5></h5>
-            </div>
-        </div>
-
-    </div>
 
 
-    <script>
-        angular.module("Ctrl", [])
-            .controller("NotaController", function($scope, $http) {
-                $scope.DataNota = {};
-                $scope.Init = function() {
-                    var GetNota = "../../api/datas/readDataNota.php";
-                    $http({
-                            method: "get",
-                            url: GetNota
-                        })
-                        .then(function(response) {
-                            $scope.DataNota = response.data;
-                        }, function(error) {
-                            alert(error.message);
-                        })
-                }
+
+        <script>
+            angular.module("Ctrl", [])
+                .controller("InvoiceController", function($scope, $http) {
+                    $scope.DataInvoice = {};
+                    $scope.DataCity = [];
+                    $scope.DataCustomer = [];
+                    $scope.Init = function() {
+
+                        //Get City
+                        var GetCity = "../../api/datas/readCity.php";
+                        $http({
+                                method: "get",
+                                url: GetCity
+                            })
+                            .then(function(response) {
+                                $scope.DataCity = response.data.records;
+                            }, function(error) {
+                                alert(error.message);
+                            })
+
+                        //Get Customer
+                        var Getcustomer = "../../api/datas/readCustomer.php";
+                        $http({
+                                method: "get",
+                                url: Getcustomer
+                            })
+                            .then(function(response) {
+                                $scope.DataCustomer = response.data.records;
+                            }, function(error) {
+                                alert(error.message);
+                            })
+
+                        var GetInvoice = "../../api/datas/readDataInvoice.php";
+                        $http({
+                                method: "get",
+                                url: GetInvoice
+                            })
+                            .then(function(response) {
+                                var tem = 0;
+                                $scope.DataInvoice = response.data;
+                                angular.forEach($scope.DataCustomer, function(valcus, keycus) {
+                                    if (valcus.Id == $scope.DataInvoice.CustomerId) {
+                                        $scope.DataInvoice.CustomerName = valcus.Name;
+                                    }
+                                })
+                                angular.forEach($scope.DataInvoice.InvoiceDetail, function(valinvdet, keyinvdet) {
+                                    angular.forEach($scope.DataCustomer, function(valcus, keycus) {
+                                        if (valcus.Id == valinvdet.ReciverID) {
+                                            valinvdet.ReciverName = valcus.Name;
+                                        }
+                                    })
+                                    angular.forEach($scope.DataCity, function(valcity, keycity) {
+                                        if (valcity.Id == valinvdet.CityID)
+                                            valinvdet.CityName = valcity.CityName;
+                                    })
+
+                                    var Nilai = ((parseInt(valinvdet.Price) * parseInt(valinvdet.Weight)) + parseInt(valinvdet.PackingCosts) + parseInt(valinvdet.Etc));
+                                    var Pajak = parseInt(Nilai) * (parseInt(valinvdet.Tax) / 100);
+                                    valinvdet.Total = parseInt(Nilai) + parseInt(Pajak);
+                                    tem += parseInt(valinvdet.Total);
+
+                                })
+                                $scope.DataInvoice.Total = tem;
 
 
-            });
-    </script>
+                                var GetTerbilang = "../../api/datas/fungsi.php";
+                                var Data = $scope.DataInvoice;
+                                $http({
+                                        method: "post",
+                                        url: GetTerbilang,
+                                        data: Data
+                                    })
+                                    .then(function(response) {
+                                        $scope.DataInvoice.Terbilang = response.data.terbilang;
+                                    }, function(error) {
+                                        alert(error.message);
+                                    })
+
+
+                            }, function(error) {
+                                alert(error.message);
+                            })
+
+                        //Get Terbilang
+
+
+                    }
+
+
+                });
+        </script>
 
 
 </body>

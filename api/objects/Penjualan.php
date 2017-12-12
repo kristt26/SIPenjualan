@@ -48,6 +48,26 @@ class Penjualan{
            return $stmt;
     }
 
+    function readBySTT(){
+        
+           // select all query
+           $query = "SELECT * from ".$this->table_name." where STT=?";
+        
+           // prepare query statement
+           $stmt = $this->conn->prepare($query);
+
+           // sanitize
+            $this->STT=htmlspecialchars(strip_tags($this->STT));
+       
+          // bind id of record to delete
+          $stmt->bindParam(1, $this->STT);
+        
+           // execute query
+           $stmt->execute();
+        
+           return $stmt;
+    }
+
     function readByCustomer(){
         
            // select all query

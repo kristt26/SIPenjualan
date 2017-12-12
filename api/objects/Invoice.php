@@ -23,6 +23,24 @@ class Invoice{
     }
 
     // read products
+    function readOne(){
+        
+           // select all query
+           $query = "SELECT * from ".$this->table_name." where Id=?";
+        
+           // prepare query statement
+           $stmt = $this->conn->prepare($query);
+
+           $this->Id=htmlspecialchars(strip_tags($this->Id));
+
+           $stmt->bindParam(1, $this->Id);
+        
+           // execute query
+           $stmt->execute();
+        
+           return $stmt;
+    }
+
     function read(){
     
        // select all query
