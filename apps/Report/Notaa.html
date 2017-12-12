@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+
+    <title>Cetak Nota</title>
+
+    <link rel='stylesheet' type='text/css' href='css/style.css' />
+    <link rel='stylesheet' type='text/css' href='css/print.css' media="print" />
+    <script type='text/javascript' src='js/jquery-1.3.2.min.js'></script>
+    <script type='text/javascript' src='js/example.js'></script>
+    <script src="../../js/pages/Angular/angular.min.js"></script>
+    <script src="../../js/pages/Angular/angular-route.js"></script>
+
+</head>
+
+<body ng-app="Ctrl" ng-controller="NotaController">
+    <div id="page-wrap" ng-init="Init()">
+
+
+        <div id="identity">
+
+            <img src="images/KopTrireksa.png" alt="logo" width="200" />
+
+            <div class="pull-right">
+                No.STT:
+                <b>{{DataNota.STT}}</b>
+            </div>
+
+        </div>
+        <br>
+
+        <div style="clear:both"></div>
+        <div id="col-left">
+            Shiper:<br> {{DataNota.ShiperName}}
+        </div>
+        <div class="pull-right">
+            Reciver:<br> {{DataNota.ReciverName}}
+        </div>
+
+        <div id="col-12" style="margin:0 0 10px 0;">
+            <div id="col-2">Asal:<br>DJJ</div>
+            <div id="col-2">Tujuan:<br>{{DataNota.CityName}}</div>
+            <div id="col-5" class="pull-right">
+                <div id="col-12">
+                    <div id="col-6">Content:<br>{{DataNota.Content}}</div>
+                    <div id="col-2">Berat:<br>{{DataNota.Weight}}</div>
+                    <div id="col-2">Koli:<br>{{DataNota.Colly}}</div>
+                    <div id="col-2">Volume:</div>
+                </div>
+            </div>
+        </div>
+        <div id="col-12" style="margin:0 0 20px 0;">
+            <div id="col-4">Status Pembayaran: <br>{{DataNota.PayType}}</div>
+            <div id="col-4">via: <br>{{DataNota.PortType}}</div>
+            <div id="col-4">Surat Jalan: <br>{{DataNota.DoNumber}}</div>
+        </div>
+        <div id="col-12" style="margin:0 0 20px 0;">
+            <div id="col-4">
+                <div id="12">
+                    <div id="col-6" style="text-align: right!important;">Tarif :</div>
+                    <div id="col-2" style="text-align: right!important;">Rp.</div>
+                    <div id="col-4" style="text-align: right!important;">{{DataNota.Price}}</div>
+
+                </div>
+                <div id="12">
+                    <div id="col-6" style="text-align: right!important;">Biaya :</div>
+                    <div id="col-2" style="text-align: right!important;">Rp.</div>
+                    <div id="col-4" style="text-align: right!important;">{{DataNota.Cost}}</div>
+
+                </div>
+                <div id="12">
+                    <div id="col-6" style="text-align: right!important;">Biaya Packing :</div>
+                    <div id="col-2" style="text-align: right!important;">Rp.</div>
+                    <div id="col-4" style="text-align: right!important;">{{DataNota.PackingCosts}}</div>
+
+                </div>
+                <div id="12">
+                    <div id="col-6" style="text-align: right!important;">Biaya Lain-lain :</div>
+                    <div id="col-2" style="text-align: right!important;">Rp.</div>
+                    <div id="col-4" style="text-align: right!important;">{{DataNota.Etc}}</div>
+
+                </div>
+                <div id="12">
+                    <div id="col-6" style="text-align: right!important;">PPN 10% :</div>
+                    <div id="col-2" style="text-align: right!important;">Rp.</div>
+                    <div id="col-4" style="text-align: right!important;">{{DataNota.Tax}}%</div>
+                </div>
+                <div id="12">
+                    <div id="col-6" style="text-align: right!important;">Total :</div>
+                    <div id="col-2" style="text-align: right!important;">Rp.</div>
+                    <div id="col-4" style="text-align: right!important;">{{DataNota.Total}}</div>
+
+                </div>
+
+            </div>
+            <div id="col-6" class="pull-right">Keterangan: <br>{{DataNota.Note}}</div>
+        </div>
+        <div id="col-12">
+            <div id="col-4" style="text-align: center!important;">
+                <div id="col-12" style="margin-bottom:30px!important;">Pengirim</div>
+                <div id="col-12">{{DataNota.ShiperName}}</div>
+            </div>
+            <div id="col-4" style="text-align: center!important;">
+                <div id="col-12" style="margin-bottom:30px!important;">Penerima</div>
+                <div id="col-12">(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)
+                </div>
+            </div>
+            <div id="col-4" style="text-align: center!important;">
+                <div id="col-12" style="margin-bottom:30px!important;">Petugas</div>
+                <div id="col-12">Ajekris Y. Kungkung</div>
+            </div>
+
+        </div>
+        <div id="col-12">
+
+            <div id="terms">
+                <h5></h5>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script>
+        angular.module("Ctrl", [])
+            .controller("NotaController", function($scope, $http) {
+                $scope.DataNota = {};
+                $scope.Init = function() {
+                    var GetNota = "../../api/datas/readDataNota.php";
+                    $http({
+                            method: "get",
+                            url: GetNota
+                        })
+                        .then(function(response) {
+                            $scope.DataNota = response.data;
+                        }, function(error) {
+                            alert(error.message);
+                        })
+                }
+
+
+            });
+    </script>
+
+
+</body>
+
+</html>

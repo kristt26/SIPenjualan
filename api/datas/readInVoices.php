@@ -19,7 +19,7 @@ $invoicedetail = new InvoiceDetail($db);
  
 // query products
 $stmtInvoice = $invoice->read();   
-$numInv = $stmt->rowCount();
+$numInv = $stmtInvoice->rowCount();
  
 // check if more than 0 record found
 if($numInv>0){
@@ -45,7 +45,6 @@ if($numInv>0){
             "DeadLine" => $DeadLine,
             "InvoicePayType" => $InvoicePayType,
             "CreateDate" => $CreateDate,
-            "UserId" => $UserId,
             "PaidDate" => $PaidDate,
             "InvoiceDetai"=>array()
         );

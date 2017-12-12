@@ -16,21 +16,24 @@ angular.module("app", ["ngRoute", "Ctrl"])
         })
 
         .when("/Customer", {
-                templateUrl: "apps/Views/Customer.html",
-                controller: "CustomerController"
-            })
-            .when("/InvDetail", {
-                templateUrl: "apps/Views/InvDetail.html",
-                controller: "InvoiceDetailController"
-            })
-            .when("/Invoice", {
-                templateUrl: "apps/Views/Invoice.html",
-                controller: "InvoicesController"
-            })
-            .when("/Penjualan", {
-                templateUrl: "apps/Views/Penjualan.html",
-                controller: "PenjualanController"
-            })
+            templateUrl: "apps/Views/Customer.html",
+            controller: "CustomerController"
+        })
+
+        .when("/Invoice", {
+            templateUrl: "apps/Views/Invoices.html",
+            controller: "InvoicesController"
+        })
+
+        .when("/CreateInvoice", {
+            templateUrl: "apps/Views/CreateInvoices.html",
+            controller: "InvoicesController"
+        })
+
+        .when("/Penjualan", {
+            templateUrl: "apps/Views/Penjualan.html",
+            controller: "PenjualanController"
+        })
 
         .when("/Prices", {
             templateUrl: "apps/Views/Prices.html",
@@ -45,6 +48,16 @@ angular.module("app", ["ngRoute", "Ctrl"])
         .when("/AddPenjualan", {
             templateUrl: "apps/Views/Create.html",
             controller: "PenjualanController"
+        })
+
+        .when("/Nota", {
+            templateUrl: "apps/Report/Notaa.html",
+            controller: "NotaController"
+        })
+
+        .when("/Logout", {
+            templateUrl: "apps/Views/SignOut.html",
+            controller: "LogController"
         })
 
         .when("/form", {
@@ -75,4 +88,7 @@ angular.module("app", ["ngRoute", "Ctrl"])
             return result;
         }
     };
-});
+})
+
+
+;

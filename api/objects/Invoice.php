@@ -13,8 +13,8 @@ class Invoice{
     public $DeadLine;
     public $InvoicePayType;
     public $CreateDate;
-    public $UserId;
     public $PaidDate;
+    public $STT;
     
  
     // constructor with $db as database connection
@@ -45,7 +45,7 @@ class Invoice{
                    " . $this->table_name . "
                SET
                    Number=:Number, CustomerId=:CustomerId, InvoiceStatus=:InvoiceStatus, DeadLine=:DeadLine, 
-                   InvoicePayType=:InvoicePayType, CreateDate=:CreateDate, UserId=:UserId, PaidDate=:PaidDate";
+                   InvoicePayType=:InvoicePayType, CreateDate=:CreateDate";
     
        // prepare query
        $stmt = $this->conn->prepare($query);
@@ -57,8 +57,7 @@ class Invoice{
        $this->DeadLine=htmlspecialchars(strip_tags($this->DeadLine));
        $this->InvoicePayType=htmlspecialchars(strip_tags($this->InvoicePayType));
        $this->CreateDate=htmlspecialchars(strip_tags($this->CreateDate));
-       $this->UserId=htmlspecialchars(strip_tags($this->UserId));
-       $this->PaidDate=htmlspecialchars(strip_tags($this->PaidDate));
+       //$this->PaidDate=htmlspecialchars(strip_tags($this->PaidDate));
       
        // bind values
        $stmt->bindParam(":Number", $this->Number);
@@ -67,8 +66,7 @@ class Invoice{
        $stmt->bindParam(":DeadLine", $this->DeadLine);
        $stmt->bindParam(":InvoicePayType", $this->InvoicePayType);
        $stmt->bindParam(":CreateDate", $this->CreateDate);
-       $stmt->bindParam(":UserId", $this->UserId);
-       $stmt->bindParam(":PaidDate", $this->PaidDate);
+       //$stmt->bindParam(":PaidDate", $this->PaidDate);
     
        // execute query
        if($stmt->execute()){

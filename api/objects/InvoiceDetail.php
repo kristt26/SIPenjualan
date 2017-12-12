@@ -68,7 +68,7 @@ class InvoiceDetail{
       
        // bind values
        $stmt->bindParam(":InvoiceId", $this->InvoiceId);
-       $stmt->bindParam(":KepalaBagian", $this->STT);
+       $stmt->bindParam(":STT", $this->STT);
     
        // execute query
        if($stmt->execute()){

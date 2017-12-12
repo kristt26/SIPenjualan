@@ -1,18 +1,51 @@
 angular.module("Ctrl", [])
 
 
-.controller("MainController", function($scope) {
+.controller("MainController", function($scope, $http, $rootScope) {
+    $scope.DataAuth = {};
+    $rootScope.Session = {};
 
     $scope.Init = function() {
+
+        //Get Auth
+        var Getauth = "api/datas/auth.php";
+        $http({
+                method: "get",
+                url: Getauth
+            })
+            .then(function(response) {
+                if (response.data.Session.Email == undefined) {
+                    window.location.href = 'System/pages/sign-in.html';
+                } else
+                    $rootScope.Session = response.data.Session;
+            }, function(error) {
+                alert(error.message);
+            })
         $scope.Title = "Ini Judul Dari Controller";
     }
 })
 
-.controller("CityController", function($scope, $http) {
+.controller("CityController", function($scope, $http, $rootScope) {
     $scope.DataCity = [];
     $scope.DatasInputCity = {};
     $scope.SelectedItemCity = {};
+    $rootScope.Session = {};
     $scope.Init = function() {
+        //Get Auth
+        var Getauth = "api/datas/auth.php";
+        $http({
+                method: "get",
+                url: Getauth
+            })
+            .then(function(response) {
+                if (response.data.Session.Email == undefined) {
+                    window.location.href = 'System/pages/sign-in.html';
+                } else
+                    $rootScope.Session = response.data.Session;
+            }, function(error) {
+                alert(error.message);
+            })
+
         var GetCity = "api/City.php?action=GetCity";
         $http({
                 method: "get",
@@ -73,21 +106,41 @@ angular.module("Ctrl", [])
 
 })
 
-.controller("UserController", function($scope, $http) {
+.controller("UserController", function($scope, $http, $rootScope) {
     $scope.DataUsers = [];
     $scope.DataSelected = {};
     $scope.InputUser = {};
+    $rootScope.Session = {};
+    $scope.DataJabatan = [
+        { Jabatan: 'Admin' }, { Jabatan: 'Bendahara' }, { Jabatan: 'StafOps' }
+    ];
+    $scope.SelectJabatan = {};
 
     $scope.Init = function() {
-        var UrlUser = "api/User.php?action=GetUser";
+        //Get Auth
+        var Getauth = "api/datas/auth.php";
+        $http({
+                method: "get",
+                url: Getauth
+            })
+            .then(function(response) {
+                if (response.data.Session.Email == undefined) {
+                    window.location.href = 'System/pages/sign-in.html';
+                } else
+                    $rootScope.Session = response.data.Session;
+            }, function(error) {
+                alert(error.message);
+            })
+
+        var UrlUser = "api/datas/readUsers.php";
         $http({
                 method: "get",
                 url: UrlUser
             })
             .then(function(response) {
-                $scope.DataUsers = response.data;
+                $scope.DataUsers = response.data.records;
             }, function(error) {
-                alert(err.Massage);
+                alert(error.message);
             })
     }
     $scope.SelectedUser = function(item) {
@@ -96,28 +149,45 @@ angular.module("Ctrl", [])
 
     //Funsi Insert User
     $scope.InsertDataUser = function() {
-        var InsertUser = "api/User.php?action=InsertUser";
+        var UrlUsers = "api/datas/createUsers.php";
+        $scope.InputUser.Jabatan = $scope.SelectJabatan.Jabatan.Jabatan;
         var Datasimpan = $scope.InputUser;
         $http({
                 method: "post",
-                url: InsertUser,
+                url: UrlUsers,
                 data: Datasimpan
             })
             .then(function(response) {
-                if (response.data != 0) {
+                if (response.data.message > 0) {
                     Datasimpan.Id = response.data;
                     $scope.DataUsers.push(angular.copy(Datasimpan));
                     $scope.InputUser = {};
                 }
             }, function(error) {
-                alert(err.Massage);
+                alert(error.message);
             })
     }
 })
 
-.controller("CustomerController", function($scope, $http) {
+.controller("CustomerController", function($scope, $http, $rootScope) {
     $scope.DataCustomer = [];
+    $rootScope.Session = {};
     $scope.Init = function() {
+        //Get Auth
+        var Getauth = "api/datas/auth.php";
+        $http({
+                method: "get",
+                url: Getauth
+            })
+            .then(function(response) {
+                if (response.data.Session.Email == undefined) {
+                    window.location.href = 'System/pages/sign-in.html';
+                } else
+                    $rootScope.Session = response.data.Session;
+            }, function(error) {
+                alert(error.message);
+            })
+
         var UrlCustomer = "api/Customer.php?action=GetCustomer";
         $http({
                 method: "get",
@@ -132,25 +202,10 @@ angular.module("Ctrl", [])
 
 })
 
-.controller("InvoiceDetailController", function($scope, $http) {
-    $scope.DataInvDetail = [];
-    $scope.Init = function() {
-        var UrlInvDetailController = "api/InvDetail.php?action=GetInvDetail";
-        $http({
-                method: "get",
-                url: UrlInvDetailController
-            })
-            .then(function(response) {
-                $scope.DataInvDetail = response.data;
-            }, function(error) {
-                alert(err.Massage);
-            })
-    }
 
-})
-
-.controller("PenjualanController", function($scope, $http, $location, $filter) {
+.controller("PenjualanController", function($scope, $http, $location, $filter, $rootScope) {
     $scope.DataPenjualan = [];
+    $rootScope.Session = {};
     $scope.DataCustomer = [];
     $scope.SelectedItemCustomerAsal = {};
     $scope.SelectedItemCustomerTujuan = {};
@@ -160,6 +215,7 @@ angular.module("Ctrl", [])
     $scope.SelectedItemCityAsal = {};
     $scope.SelectedItemCityTujuan = {};
     $scope.SelectedDataHarga = {};
+    $scope.ItemCetak = {};
     $scope.DataVia = [
         { port: 'Sea' },
         { port: 'Air' },
@@ -356,11 +412,44 @@ angular.module("Ctrl", [])
 
     }
 
+    $scope.Cetak = function(item) {
+        $scope.ItemCetak = item;
+        var Data = $scope.ItemCetak;
+        var UrlCetakNota = "api/datas/cetakNota.php";
+        $http({
+                method: "port",
+                url: UrlCetakNota,
+                data: Data
+            })
+            .then(function(response) {
+                window.open('apps/Report/Notaa.html', '_blank');
+
+            }, function(error) {
+                alert(error.message);
+            })
+    }
+
 })
 
-.controller("PricesController", function($scope, $http) {
+.controller("PricesController", function($scope, $http, $rootScope) {
     $scope.DataPrices = [];
+    $rootScope.Session = {};
     $scope.Init = function() {
+        //Get Auth
+        var Getauth = "api/datas/auth.php";
+        $http({
+                method: "get",
+                url: Getauth
+            })
+            .then(function(response) {
+                if (response.data.Session.Email == undefined) {
+                    window.location.href = 'System/pages/sign-in.html';
+                } else
+                    $rootScope.Session = response.data.Session;
+            }, function(error) {
+                alert(error.message);
+            })
+
         var UrlPrices = "api/datas/readPrice.php";
         $http({
                 method: "get",
@@ -375,11 +464,199 @@ angular.module("Ctrl", [])
 
 })
 
-.controller("InvoicesController", function($scope, $http) {
+.controller("InvoicesController", function($scope, $http, $rootScope) {
+    $scope.Datasinvoice = [];
+    $rootScope.Session = {};
+    $scope.DataDetail = [];
+    $scope.DataInputInvoice = {};
+    $scope.DataCustomer = [];
+    $scope.DatasPenjualan = [];
+    $scope.DatasPenjualanNew = [];
+    $scope.SelectedItemCustomer = {};
+    $scope.STT = [];
+    $scope.DataChecked = {};
+    $scope.PayType = [{ pay: 'Transfer' }, { pay: 'Chash' }];
+    $scope.SelectedItemPay = {};
+    $scope.Init = function() {
+        //Get Auth
+        var Getauth = "api/datas/auth.php";
+        $http({
+                method: "get",
+                url: Getauth
+            })
+            .then(function(response) {
+                if (response.data.Session.Email == undefined) {
+                    window.location.href = 'System/pages/sign-in.html';
+                } else
+                    $rootScope.Session = response.data.Session;
+            }, function(error) {
+                alert(error.message);
+            })
+
+        var Getinv = "api/datas/readInvoices.php";
+        $http({
+                method: "get",
+                url: Getinv
+            })
+            .then(function(response) {
+                $scope.Datasinvoice = response.data.records;
+            }, function(error) {
+                alert(error.message);
+            })
+
+
+        var Getcustomer = "api/datas/readCustomer.php";
+        $http({
+                method: "get",
+                url: Getcustomer
+            })
+            .then(function(response) {
+                $scope.DataCustomer = response.data.records;
+            }, function(error) {
+                alert(error.message);
+            })
+
+        var Getinvdet = "api/datas/readInvoiceDetail.php";
+        $http({
+                method: "get",
+                url: Getinvdet
+            })
+            .then(function(response) {
+                $scope.DataDetail = response.data.records;
+            }, function(error) {
+                alert(error.message);
+            })
+
+    }
+
+    $scope.SetPelanggan = function() {
+        var Data = $scope.SelectedItemCustomer;
+        var Getpenjualan = "api/datas/readPenjualanByCustomer.php";
+        $http({
+                method: "post",
+                url: Getpenjualan,
+                data: Data
+
+            })
+            .then(function(response) {
+                $scope.DatasPenjualan = response.data.records;
+                angular.forEach($scope.DatasPenjualan, function(itemPenjualan, keyP) {
+                    var a = 0;
+                    angular.forEach($scope.DataDetail, function(Iteminvdet, keyinvdet) {
+                        if (Iteminvdet.STT == itemPenjualan.STT)
+                            a += 1;
+                    })
+                    if (a == 0)
+                        $scope.DatasPenjualanNew.push(itemPenjualan);
+
+                })
+
+                angular.forEach($scope.DatasPenjualanNew, function(itemPenjualan, keyP) {
+                    angular.forEach($scope.DataCustomer, function(ItemCutomer, keyC) {
+                        if (ItemCutomer.Id == itemPenjualan.ShiperID)
+                            itemPenjualan.ShiperName = ItemCutomer.Name;
+                        else if (ItemCutomer.Id == itemPenjualan.ReciverID)
+                            itemPenjualan.ReciverName = ItemCutomer.Name;
+                    })
+
+                    var Nilai = ((parseInt(itemPenjualan.Price) * parseInt(itemPenjualan.Weight)) + parseInt(itemPenjualan.PackingCosts) + parseInt(itemPenjualan.Etc));
+                    var Pajak = parseInt(Nilai) * (parseInt(itemPenjualan.Tax) / 100);
+                    itemPenjualan.Total = parseInt(Nilai) + parseInt(Pajak);
+
+                })
+
+
+
+
+
+            }, function(error) {
+                alert(error.message);
+            })
+    }
+
+    $scope.Check = function(check, item) {
+        angular.forEach($scope.DatasPenjualan, function(value, key) {
+            if (value.Id == item.Id) {
+                if (value.Cheked != undefined) {
+                    if (check == true)
+                        value.Cheked = check;
+                    else
+                        value.Cheked = false;
+                } else {
+                    if (check == true)
+                        value.Cheked = check;
+                    else
+                        value.Cheked = false;
+                }
+            }
+        })
+
+    }
+
+    $scope.AddSTT = function() {
+        angular.forEach($scope.DatasPenjualan, function(value, key) {
+            var Data = 0;
+            if ($scope.STT.length != 0) {
+                angular.forEach($scope.STT, function(val, keyval) {
+                    if (val.STT == value.STT) {
+                        Data += 1;
+                    }
+                })
+                if (Data == 0 && value.Cheked == true)
+                    $scope.STT.push(value);
+                else if (Data > 0 && value.Cheked == false) {
+                    $scope.STT.splice(value, 1);
+                }
+            } else {
+                if (value.Cheked == true) {
+                    $scope.STT.push(value);
+                }
+            }
+        })
+        $scope.DataInputInvoice.STT = $scope.STT;
+    }
+
+    $scope.CreateInv = function() {
+        $scope.DataInputInvoice.InvoicePayType = $scope.SelectedItemPay.pay;
+        $scope.DataInputInvoice.CustomerId = $scope.SelectedItemCustomer.Id;
+        $scope.DataInputInvoice.InvoiceStatus = "Pending";
+        var Data = $scope.DataInputInvoice;
+        var UrlInv = "api/datas/createInv.php";
+        $http({
+                method: "post",
+                url: UrlInv,
+                data: Data
+            })
+            .then(function(response) {
+                angular.forEach(response.data.STT, function(Value, Key) {
+                    angular.forEach(Data.STT, function(Val, NewKey) {
+
+                    })
+                })
+                $scope.Datasinvoice = Data;
+            }, function(error) {
+                alert(error.message);
+            })
+
+    }
+
 
 })
 
 
-.controller("CollesController", function($scope, $http) {
+.controller("LogController", function($scope, $http) {
+    $scope.Init = function() {
+        var Getlog = "api/datas/logout.php";
+        $http({
+                method: "get",
+                url: Getlog
+            })
+            .then(function(response) {
+                if (response.data.message == true)
+                    window.location.href = 'System/pages/sign-in.html';
+            }, function(error) {
+                alert(error.message);
+            })
+    }
 
 });

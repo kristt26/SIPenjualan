@@ -48,6 +48,26 @@ class Penjualan{
            return $stmt;
     }
 
+    function readByCustomer(){
+        
+           // select all query
+           $query = "SELECT * from ".$this->table_name." where ShiperID=?";
+        
+           // prepare query statement
+           $stmt = $this->conn->prepare($query);
+
+           // sanitize
+            $this->ShiperID=htmlspecialchars(strip_tags($this->ShiperID));
+       
+          // bind id of record to delete
+          $stmt->bindParam(1, $this->ShiperID);
+        
+           // execute query
+           $stmt->execute();
+        
+           return $stmt;
+    }
+
     // read products
     function read(){
     

@@ -6,7 +6,7 @@
                     Daftar Invoice
                 </h2>
                 <ul class="header-dropdown m-r--5">
-                    <button type="button" class="btn btn-default waves-effect m-r-20 pull-right" data-toggle="modal" data-target="#defaultModal">Add Invoice</button>
+                    <a href="#!CreateInvoice" class="btn btn-default waves-effect m-r-20 pull-right">Add</a>
                 </ul>
             </div>
             <div class="body table-responsive">
@@ -16,41 +16,30 @@
                             <th>No</th>
                             <th>Id</th>
                             <th>Number</th>
-                            <th>Customer Id</th>
-                            <th>Is Delivery</th>
+                            <th>Customer</th>
                             <th>Invoice Status</th>
-                            <th>Delivery Date</th>
-                            <th>Recive By</th>
-                            <th>Recive Date</th>
                             <th>DeadLine</th>
                             <th>Invoice Pay Type</th>
                             <th>Create Date</th>
-                            <th>User Id</th>
                             <th>Paid Date</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="item in DataInvoices">
+                        <tr ng-repeat="item in Datasinvoice">
                             <th scope="row">{{$index+1}}</th>
                             <td>{{item.Id}}</td>
                             <td>{{item.Number}}</td>
                             <td>{{item.CustomerId}}</td>
-                            <td>{{item.IsDelivery}}</td>
                             <td>{{item.InvoiceStatus}}</td>
-                            <td>{{item.DeliveryDate}}</td>
-                            <td>{{item.ReciveBy}}</td>
-                            <td>{{item.ReciveDate}}</td>
                             <td>{{item.DeadLine}}</td>
                             <td>{{item.InvoicePayType}}</td>
                             <td>{{item.CreateDate}}</td>
-                            <td>{{item.UserId}}</td>
                             <td>{{item.PaidDate}}</td>
                             <td>
                                 <ul class="header-dropdown">
                                     <li class="dropdown">
-                                        <a href="javascript:void(0);" class="dropdown-toggle" title="Action" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                            aria-expanded="false">
+                                        <a href="javascript:void(0);" class="dropdown-toggle" title="Action" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                             <i class="material-icons">view_agenda</i>
                                         </a>
                                         <ul class="dropdown-menu pull-right">
