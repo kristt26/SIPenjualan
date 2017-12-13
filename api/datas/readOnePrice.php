@@ -62,7 +62,7 @@ if($num>0){
  
 else{
     echo json_encode(
-        array("message" => "No Price found.")
+        array("message" => "No Price found")
     );
 }
 ?>

@@ -375,10 +375,15 @@ angular.module("Ctrl", [])
                 data: Data
             })
             .then(function(response) {
-                $scope.DataInputPenjualan.Price = response.data.records[0];
-                $scope.DataInputPenjualan.Biaya = parseInt($scope.DataInputPenjualan.Price.Price) * parseInt($scope.DataInputPenjualan.Weight);
-                $scope.DataInputPenjualan.TotalSementara = parseInt($scope.DataInputPenjualan.Price.Price) * parseInt($scope.DataInputPenjualan.Weight);
-                $scope.DataInputPenjualan.Total = angular.copy($scope.DataInputPenjualan.TotalSementara);
+                if(response.data.message!=undefined || response.data.message!="No Price found")
+                {
+                    $scope.DataInputPenjualan.Price = response.data.records[0];
+                    $scope.DataInputPenjualan.Biaya = parseInt($scope.DataInputPenjualan.Price.Price) * parseInt($scope.DataInputPenjualan.Weight);
+                    $scope.DataInputPenjualan.TotalSementara = parseInt($scope.DataInputPenjualan.Price.Price) * parseInt($scope.DataInputPenjualan.Weight);
+                    $scope.DataInputPenjualan.Total = angular.copy($scope.DataInputPenjualan.TotalSementara);
+                }else
+                alert("Tidak Harga untuk Item yang bersangkutan");
+                
             }, function(error) {
                 alert(error.message);
             })
