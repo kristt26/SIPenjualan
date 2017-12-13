@@ -222,7 +222,7 @@ angular.module("Ctrl", [])
     $scope.InsertDataCustomer = function() {
         $scope.InputCustomer.CityID = $scope.SelectedItemCity.Id;
         $scope.InputCustomer.CustomerType = $scope.SelectedCusType.Type;
-        var Data = $scope.InputCustomer;
+        var Data = angular.copy($scope.InputCustomer);
         var UrlInsertCustomer = "api/datas/createCustomer.php"
         $http({
                 method: "post",
@@ -230,13 +230,15 @@ angular.module("Ctrl", [])
                 data: Data
             })
             .then(function(response) {
-                $scope.InputCustomer.Id = response.data.message;
-                $scope.DataCustomer.push($scope.InputCustomer);
+                Data.Id = response.data.message;
+                $scope.DataCustomer.push(Data);
+
             }, function(error) {
                 alert(error.message);
             })
-
         $scope.InputCustomer = {};
+        $scope.SelectedItemCity = {};
+        $scope.SelectedCusType = {};
     }
 
 })
@@ -557,12 +559,37 @@ angular.module("Ctrl", [])
         $scope.InputPrice.ReciverId = $scope.SelectedReciver.Id;
         $scope.InputPrice.ReciverName = $scope.SelectedReciver.Name;
         $scope.InputPrice.FromCity = $scope.SelectedFromCity.Id;
-        $scope.InputPrice.FromCityName = $scope.SelectedFromCity.Name;
+        $scope.InputPrice.FromCityName = $scope.SelectedFromCity.CityName;
         $scope.InputPrice.ToCity = $scope.SelectedToCity.Id;
-        $scope.InputPrice.ToCityName = $scope.SelectedToCity.Name;
+        $scope.InputPrice.ToCityName = $scope.SelectedToCity.CityName;
         $scope.InputPrice.PortType = $scope.SelectedPort.port;
         $scope.InputPrice.PayType = $scope.SelectedPay.pay;
-        var Data = $scope.InputPrice;
+        var Data = angular.copy($scope.InputPrice);
+        var UrlInserPrice = "api/datas/createPrice.php";
+        $http({
+                method: "post",
+                url: UrlInserPrice,
+                data: Data
+            })
+            .then(function(response) {
+                if (response.data.message != "Unable to create Price") {
+                    Data.Id = response.data.message;
+                    $scope.DataPrices.push(Data);
+
+                } else
+                    alert(response.data.message);
+            }, function(error) {
+                alert(error.message);
+            });
+        $scope.InputPrice = {};
+        $scope.SelectedShiper = {};
+        $scope.SelectedReciver = {};
+        $scope.SelectedFromCity = {};
+        $scope.SelectedToCity = {};
+        $scope.SelectedPort = {};
+        $scope.SelectedPay = {};
+
+
     }
 
 })
