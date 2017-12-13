@@ -171,7 +171,12 @@ angular.module("Ctrl", [])
 
 .controller("CustomerController", function($scope, $http, $rootScope) {
     $scope.DataCustomer = [];
+    $scope.InputCustomer = {};
     $rootScope.Session = {};
+    $scope.DataCity = [];
+    $scope.SelectedItemCity = {};
+    $scope.CustomerType = [{ 'Type': 'Organization' }, { 'Type': 'Person' }];
+    $scope.SelectedCusType = {};
     $scope.Init = function() {
         //Get Auth
         var Getauth = "api/datas/auth.php";
@@ -188,15 +193,47 @@ angular.module("Ctrl", [])
                 alert(error.message);
             })
 
-        var UrlCustomer = "api/Customer.php?action=GetCustomer";
+
+        //Get City
+        var GetCity = "api/datas/readCity.php";
         $http({
                 method: "get",
-                url: UrlCustomer
+                url: GetCity
             })
             .then(function(response) {
-                $scope.DataCustomer = response.data;
+                $scope.DataCity = response.data.records;
             }, function(error) {
-                alert(err.Massage);
+                alert(error.message);
+            })
+
+        //Get Customer
+        var Getcustomer = "api/datas/readCustomer.php";
+        $http({
+                method: "get",
+                url: Getcustomer
+            })
+            .then(function(response) {
+                $scope.DataCustomer = response.data.records;
+            }, function(error) {
+                alert(error.message);
+            })
+    }
+
+    $scope.InsertDataCustomer = function() {
+        $scope.InputCustomer.CityID = $scope.SelectedItemCity.Id;
+        $scope.InputCustomer.CustomerType = $scope.SelectedCusType.Type;
+        var Data = $scope.InputCustomer;
+        var UrlInsertCustomer = "api/datas/createCustomer.php"
+        $http({
+                method: "post",
+                url: UrlInsertCustomer,
+                data: Data
+            })
+            .then(function(response) {
+                $scope.InputCustomer.Id = response.data.message;
+                $scope.DataCustomer.push($scope.InputCustomer);
+            }, function(error) {
+                alert(error.message);
             })
     }
 
@@ -434,6 +471,17 @@ angular.module("Ctrl", [])
 .controller("PricesController", function($scope, $http, $rootScope) {
     $scope.DataPrices = [];
     $rootScope.Session = {};
+    $scope.DataCity = [];
+    $scope.DataCustomer = [];
+    $scope.SelectedShiper = {};
+    $scope.SelectedReciver = {};
+    $scope.SelectedFromCity = {};
+    $scope.SelectedToCity = {};
+    $scope.InputPrice = {};
+    $scope.PortType = [{ 'port': 'Sea' }, { 'port': 'Air' }, { 'port': 'Land' }];
+    $scope.SelectedPort = {};
+    $scope.PayType = [{ 'pay': 'Credit' }, { 'pay': 'COD' }, { 'pay': 'Cash' }];
+    $scope.SelectedPay = {};
     $scope.Init = function() {
         //Get Auth
         var Getauth = "api/datas/auth.php";
@@ -450,6 +498,31 @@ angular.module("Ctrl", [])
                 alert(error.message);
             })
 
+        //Get City
+        var GetCity = "api/datas/readCity.php";
+        $http({
+                method: "get",
+                url: GetCity
+            })
+            .then(function(response) {
+                $scope.DataCity = response.data.records;
+            }, function(error) {
+                alert(error.message);
+            })
+
+        //Get Customer
+        var Getcustomer = "api/datas/readCustomer.php";
+        $http({
+                method: "get",
+                url: Getcustomer
+            })
+            .then(function(response) {
+                $scope.DataCustomer = response.data.records;
+            }, function(error) {
+                alert(error.message);
+            })
+
+
         var UrlPrices = "api/datas/readPrice.php";
         $http({
                 method: "get",
@@ -457,9 +530,37 @@ angular.module("Ctrl", [])
             })
             .then(function(response) {
                 $scope.DataPrices = response.data.records;
+                angular.forEach($scope.DataPrices, function(valprice, keyprice) {
+                    angular.forEach($scope.DataCustomer, function(valcus, keycus) {
+                        if (valcus.Id == valprice.ShiperId)
+                            valprice.ShiperName = valcus.Name;
+                        if (valcus.Id == valprice.ReciverId)
+                            valprice.ReciverName = valcus.Name;
+                    })
+                    angular.forEach($scope.DataCity, function(valcity, keycity) {
+                        if (valcity.Id == valprice.FromCity)
+                            valprice.FromCityName = valcity.CityName;
+                        if (valcity.Id == valprice.ToCity)
+                            valprice.ToCityName = valcity.CityName;
+                    })
+                })
             }, function(error) {
                 alert(error.message);
             })
+    }
+
+    $scope.InsertPrice = function() {
+        $scope.InputPrice.ShiperId = $scope.SelectedShiper.Id;
+        $scope.InputPrice.ShiperName = $scope.SelectedShiper.Name;
+        $scope.InputPrice.ReciverId = $scope.SelectedReciver.Id;
+        $scope.InputPrice.ReciverName = $scope.SelectedReciver.Name;
+        $scope.InputPrice.FromCity = $scope.SelectedFromCity.Id;
+        $scope.InputPrice.FromCityName = $scope.SelectedFromCity.Name;
+        $scope.InputPrice.ToCity = $scope.SelectedToCity.Id;
+        $scope.InputPrice.ToCityName = $scope.SelectedToCity.Name;
+        $scope.InputPrice.PortType = $scope.SelectedPort.port;
+        $scope.InputPrice.PayType = $scope.SelectedPay.pay;
+        var Data = $scope.InputPrice;
     }
 
 })

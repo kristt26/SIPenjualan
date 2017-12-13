@@ -14,9 +14,8 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Id</th>
-                            <th>Id Penerima</th>
-                            <th>Id Pengirim</th>
+                            <th>Pengirim</th>
+                            <th>Penerima</th>
                             <th>Jenis Port</th>
                             <th>Jenis Pembayaran</th>
                             <th>Kota Pengirim</th>
@@ -27,19 +26,17 @@
                     <tbody>
                         <tr ng-repeat="item in DataPrices">
                             <th scope="row">{{$index+1}}</th>
-                            <td>{{item.Id}}</td>
-                            <td>{{item.ShiperId}}</td>
-                            <td>{{item.ReciverId}}</td>
+                            <td>{{item.ShiperName}}</td>
+                            <td>{{item.ReciverName}}</td>
                             <td>{{item.PortType}}</td>
                             <td>{{item.PayType}}</td>
-                            <td>{{item.FromCity}}</td>
-                            <td>{{item.ToCity}}</td>
+                            <td>{{item.FromCityName}}</td>
+                            <td>{{item.ToCityName}}</td>
                             <td>{{item.Price}}</td>
                             <td>
                                 <ul class="header-dropdown">
                                     <li class="dropdown">
-                                        <a href="javascript:void(0);" class="dropdown-toggle" title="Action" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                            aria-expanded="false">
+                                        <a href="javascript:void(0);" class="dropdown-toggle" title="Action" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                             <i class="material-icons">view_agenda</i>
                                         </a>
                                         <ul class="dropdown-menu pull-right">
@@ -74,48 +71,51 @@
                 <div class="row clearfix">
                     <div class="col-sm-12">
                         <div class="form-group">
+                            <label>Pengirim</label>
                             <div class="form-line">
-                                <input type="text" ng-model="InputId.Id" class="form-control" placeholder="Id" />
+                                <select class="form-control" ng-options="item as item.Name for item in DataCustomer track by item.Id" ng-model="SelectedShiper"></select>
                             </div>
                         </div>
                         <div class="form-group">
+                            <label>Penerima</label>
                             <div class="form-line">
-                                <input type="text" ng-model="InputShiperId.ShiperId" class="form-control" placeholder="Id Penerima" />
+                                <select class="form-control" ng-options="item as item.Name for item in DataCustomer track by item.Id" ng-model="SelectedReciver"></select>
                             </div>
                         </div>
                         <div class="form-group">
+                            <label>Jenis Port</label>
                             <div class="form-line">
-                                <input type="text" ng-model="InputReciverId.ReciverId" class="form-control" placeholder="Id Pengirim" />
+                                <select class="form-control" ng-options="item as item.port for item in PortType track by item.port" ng-model="SelectedPort"></select>
                             </div>
                         </div>
                         <div class="form-group">
+                            <label>Jenis Pembayaran</label>
                             <div class="form-line">
-                                <input type="text" ng-model="InputPortType.PortType" class="form-control" placeholder="Jenis Port" />
+                                <select class="form-control" ng-options="item as item.pay for item in PayType track by item.pay" ng-model="SelectedPay"></select>
                             </div>
                         </div>
                         <div class="form-group">
+                            <label>Kota Asal</label>
                             <div class="form-line">
-                                <input type="text" ng-model="InputPayType.PayType" class="form-control" placeholder="Jenis Pembayaran" />
+                                <select class="form-control" ng-options="item as item.CityName for item in DataCity track by item.Id" ng-model="SelectedFromCity"></select>
+                            </div>
                         </div>
                         <div class="form-group">
+                            <label>Kota Tujuan</label>
                             <div class="form-line">
-                                <input type="text" ng-model="InputFromCity.FromCity" class="form-control" placeholder="Kota Pengirim" />
-                        </div>
-                        <div class="form-group">
-                            <div class="form-line">
-                                <input type="text" ng-model="InputToCity.ToCity" class="form-control" placeholder="Kota Penerima" />
+                                <select class="form-control" ng-options="item as item.CityName for item in DataCity track by item.Id" ng-model="SelectedToCity"></select>
+                            </div>
                         </div>
                         <div class="form-group">
                             <div class="form-line">
                                 <input type="text" ng-model="InputPrice.Price" class="form-control" placeholder="Harga" />
-                        </div>
-
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" ng-click="InsertDataUser()" class="btn btn-link waves-effect" data-dismiss="modal">SAVE CHANGES</button>
+                <button type="button" ng-click="InsertPrice()" class="btn btn-link waves-effect" data-dismiss="modal">SAVE CHANGES</button>
                 <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
             </div>
         </div>

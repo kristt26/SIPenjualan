@@ -41,8 +41,7 @@
                             <td>
                                 <ul class="header-dropdown">
                                     <li class="dropdown">
-                                        <a href="javascript:void(0);" class="dropdown-toggle" title="Action" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                            aria-expanded="false">
+                                        <a href="javascript:void(0);" class="dropdown-toggle" title="Action" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                             <i class="material-icons">view_agenda</i>
                                         </a>
                                         <ul class="dropdown-menu pull-right">
@@ -83,44 +82,54 @@
                         </div>
                         <div class="form-group">
                             <div class="form-line">
-                                <input type="text" ng-model="InputCustomerType.CustomerType" class="form-control" placeholder="Type Customer" />
+                                <select class="form-control" ng-options="item as item.Type for item in CustomerType track by item.Type" ng-model="SelectedCusType"></select>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="form-line">
-                                <input type="text" ng-model="InputNameContact.ContactName" class="form-control" placeholder="Nama Kontak" />
+                                <input type="text" ng-model="InputCustomer.ContactName" class="form-control" placeholder="Nama Kontak" />
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="form-line">
-                                <input type="text" ng-model="InputTelepon1.Phone1" class="form-control" placeholder="Telepon 1" />
+                                <input type="text" ng-model="InputCustomer.Phone1" class="form-control" placeholder="Telepon 1" />
                             </div>
-                        <div class="form-group">
-                                <div class="form-line">
-                                    <input type="text" ng-model="InputTelepon2.Phone2" class="form-control" placeholder="Telepon 2" />
-                                </div>
-                        <div class="form-group">
-                                <div class="form-line">
-                                        <input type="text" ng-model="InputHandphone.Handphone" class="form-control" placeholder="Handphone" />
-                    </div>
+                        </div>
                         <div class="form-group">
                             <div class="form-line">
-                                <input type="email" ng-model="InputEmail.Email" class="form-control" placeholder="Email (ex.jhon@mail.com)" />
+                                <input type="text" ng-model="InputCustomer.Phone2" class="form-control" placeholder="Telepon 2" />
                             </div>
+                        </div>
                         <div class="form-group">
                             <div class="form-line">
-                                <input type="text" ng-model="InputCityId.CityID" class="form-control" placeholder="Id Kota" />
+                                <input type="text" ng-model="InputCustomer.Handphone" class="form-control" placeholder="Handphone" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <textarea class="form-control" ng-model="InputCustomer.Address" placeholder="Address"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="email" ng-model="InputCustomer.Email" class="form-control" placeholder="Email (ex.jhon@mail.com)" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <select class="form-control" ng-options="item as item.CityCode for item in DataCity track by item.Id" ng-model="SelectedItemCity"></select>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" ng-click="InsertDataUser()" class="btn btn-link waves-effect" data-dismiss="modal">SAVE CHANGES</button>
-                <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
-            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" ng-click="InsertDataCustomer()" class="btn btn-link waves-effect" data-dismiss="modal">SAVE CHANGES</button>
+            <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
         </div>
     </div>
+</div>
 </div>
 
 <div class="modal fade" id="EditCity" tabindex="-1" role="dialog">
