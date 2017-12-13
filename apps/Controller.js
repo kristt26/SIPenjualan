@@ -235,6 +235,8 @@ angular.module("Ctrl", [])
             }, function(error) {
                 alert(error.message);
             })
+
+        $scope.InputCustomer = {};
     }
 
 })
