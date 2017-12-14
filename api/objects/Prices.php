@@ -26,7 +26,7 @@ class Prices{
         // select all query
         $query = "SELECT * from ".$this->table_name." 
         where
-        ShiperId=? and ReciverId=? and PortType=? and PayType=? and FromCity=? and ToCity";
+        ShiperId=? and ReciverId=? and PortType=? and PayType=? and FromCity=? and ToCity=?";
        
           // prepare query statement
           $stmt = $this->conn->prepare($query);

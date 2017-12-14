@@ -24,15 +24,17 @@ $price->PayType=$data->PayType;
 $price->FromCity=$data->FromCity;
 $price->ToCity=$data->ToCity;
 // query products
-$stmt = $price->read();   
+$stmt = $price->readOne();   
 $num = $stmt->rowCount();
  
 // check if more than 0 record found
+$price_arr=array();
+$price_arr["records"]=array();
+$price_arr["num"]=$num;
 if($num>0){
  
     // products array
-    $price_arr=array();
-    $price_arr["records"]=array();
+    
  
     // retrieve our table contents
     // fetch() is faster than fetchAll()
@@ -61,8 +63,6 @@ if($num>0){
 }
  
 else{
-    echo json_encode(
-        array("message" => "No Price found")
-    );
+    echo json_encode($price_arr);
 }
 ?>
