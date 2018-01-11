@@ -145,6 +145,7 @@ angular.module("Ctrl", [])
     }
     $scope.SelectedUser = function(item) {
         $scope.DataSelected = item;
+        $scope.SelectJabatan.Jabatan = item.Jabatan;
     }
 
     //Funsi Insert User
@@ -177,6 +178,7 @@ angular.module("Ctrl", [])
     $scope.SelectedItemCity = {};
     $scope.CustomerType = [{ 'Type': 'Organization' }, { 'Type': 'Person' }];
     $scope.SelectedCusType = {};
+    $scope.DataUpdateCustomer = {};
     $scope.Init = function() {
         //Get Auth
         var Getauth = "api/datas/auth.php";
@@ -241,6 +243,33 @@ angular.module("Ctrl", [])
         $scope.SelectedCusType = {};
     }
 
+    $scope.SelectedCustomer = function(item) {
+        $scope.DataUpdateCustomer = item;
+        $scope.SelectedCusType.Type = item.CustomerType;
+        angular.forEach($scope.DataCity, function(ItemCity, keyy) {
+            if (ItemCity.Id == item.CityID)
+                $scope.SelectedItemCity = ItemCity;
+        })
+    }
+
+    $scope.UpdateDataCustomer = function() {
+        $scope.DataUpdateCustomer.CityID = $scope.SelectedItemCity.Id;
+        $scope.DataUpdateCustomer.CustomerType = $scope.SelectedCusType.Type;
+        var Data = angular.copy($scope.DataUpdateCustomer);
+        var UrlUpdateCustomer = "api/datas/createCustomer.php"
+        $http({
+                method: "post",
+                url: UrlUpdateCustomer,
+                data: Data
+            })
+            .then(function(response) {
+                Data.Id = response.data.message;
+                $scope.DataCustomer.push(Data);
+
+            }, function(error) {
+                alert(error.message);
+            })
+    }
 })
 
 

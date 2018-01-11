@@ -18,11 +18,9 @@
                             <th>Type Cutomer</th>
                             <th>Nama Kontak</th>
                             <th>Telephon 1</th>
-                            <th>Telepon 2</th>
                             <th>Handphone</th>
                             <th>Alamat</th>
                             <th>Email</th>
-                            <th>Id Kota</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -33,30 +31,11 @@
                             <td>{{item.CustomerType}}</td>
                             <td>{{item.ContactName}}</td>
                             <td>{{item.Phone1}}</td>
-                            <td>{{item.Phone2}}</td>
                             <td>{{item.Handphone}}</td>
                             <td>{{item.Address}}</td>
                             <td>{{item.Email}}</td>
-                            <td>{{item.CityID}}</td>
                             <td>
-                                <ul class="header-dropdown">
-                                    <li class="dropdown">
-                                        <a href="javascript:void(0);" class="dropdown-toggle" title="Action" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                            <i class="material-icons">view_agenda</i>
-                                        </a>
-                                        <ul class="dropdown-menu pull-right">
-                                            <li>
-                                                <button type="button" ng-click="SelectedUser(item)" class="btn btn-default waves-effect m-r-20 pull-right" data-toggle="modal" data-target="#EditCity"><i class="material-icons">edit</i></button>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Another action</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Something else here</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
+                                <button type="button" ng-click="SelectedCustomer(item)" class="btn btn-default waves-effect m-r-20 pull-right" data-toggle="modal" data-target="#EditCity"><i class="material-icons">edit</i></button>
                             </td>
                         </tr>
                     </tbody>
@@ -70,7 +49,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="defaultModalLabel">Add City</h4>
+                <h4 class="modal-title" id="defaultModalLabel">Add Customer</h4>
             </div>
             <div class="modal-body">
                 <div class="row clearfix">
@@ -123,49 +102,75 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" ng-click="InsertDataCustomer()" class="btn btn-link waves-effect" data-dismiss="modal">SAVE CHANGES</button>
-            <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+            <div class="modal-footer">
+                <button type="button" ng-click="InsertDataCustomer()" class="btn btn-link waves-effect" data-dismiss="modal">SAVE CHANGES</button>
+                <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+            </div>
         </div>
     </div>
 </div>
-</div>
+
+
 
 <div class="modal fade" id="EditCity" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="defaultModalLabel">Edit City</h4>
+                <h4 class="modal-title" id="defaultModalLabel">Edit Customer</h4>
             </div>
             <div class="modal-body">
                 <div class="row clearfix">
                     <div class="col-sm-12">
                         <div class="form-group">
                             <div class="form-line">
-                                <input type="text" ng-model="SelectedItemCity.Province" class="form-control" placeholder="Provinsi" />
+                                <input type="text" ng-model="DataUpdateCustomer.Name" class="form-control" placeholder="Nama Customer" />
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="form-line">
-                                <input type="text" ng-model="SelectedItemCity.Regency" class="form-control" placeholder="Kabupaten" />
+                                <select class="form-control" ng-options="item as item.Type for item in CustomerType track by item.Type" ng-model="SelectedCusType"></select>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="form-line">
-                                <input type="text" ng-model="SelectedItemCity.CityName" class="form-control" placeholder="Nama Kota" />
+                                <input type="text" ng-model="DataUpdateCustomer.ContactName" class="form-control" placeholder="Nama Kontak" />
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="form-line">
-                                <input type="text" ng-model="SelectedItemCity.CityCode" class="form-control" placeholder="Kode Kota" />
+                                <input type="text" ng-model="DataUpdateCustomer.Phone1" class="form-control" placeholder="Telepon 1" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="DataUpdateCustomer.Phone2" class="form-control" placeholder="Telepon 2" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="DataUpdateCustomer.Handphone" class="form-control" placeholder="Handphone" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <textarea class="form-control" ng-model="DataUpdateCustomer.Address" placeholder="Address"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="email" ng-model="DataUpdateCustomer.Email" class="form-control" placeholder="Email (ex.jhon@mail.com)" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <select class="form-control" ng-options="item as item.CityCode for item in DataCity track by item.Id" ng-model="SelectedItemCity"></select>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" ng-click="UpdateDataCity()" class="btn btn-link waves-effect" data-dismiss="modal">SAVE CHANGES</button>
+                <button type="button" ng-click="UpdateDataCustomer()" class="btn btn-link waves-effect" data-dismiss="modal">SAVE CHANGES</button>
                 <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
             </div>
         </div>

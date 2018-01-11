@@ -34,24 +34,7 @@
                             <td>{{item.ToCityName}}</td>
                             <td>{{item.Price}}</td>
                             <td>
-                                <ul class="header-dropdown">
-                                    <li class="dropdown">
-                                        <a href="javascript:void(0);" class="dropdown-toggle" title="Action" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                            <i class="material-icons">view_agenda</i>
-                                        </a>
-                                        <ul class="dropdown-menu pull-right">
-                                            <li>
-                                                <button type="button" ng-click="SelectedUser(item)" class="btn btn-default waves-effect m-r-20 pull-right" data-toggle="modal" data-target="#EditCity"><i class="material-icons">edit</i></button>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Another action</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Something else here</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
+                                <button type="button" ng-click="SelectedUser(item)" class="btn btn-default waves-effect m-r-20 pull-right" data-toggle="modal" data-target="#EditCity"><i class="material-icons">edit</i></button>
                             </td>
                         </tr>
                     </tbody>
@@ -65,7 +48,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="defaultModalLabel">Add City</h4>
+                <h4 class="modal-title" id="defaultModalLabel">Add Price</h4>
             </div>
             <div class="modal-body">
                 <div class="row clearfix">
@@ -126,7 +109,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="defaultModalLabel">Edit City</h4>
+                <h4 class="modal-title" id="defaultModalLabel">Edit Price</h4>
             </div>
             <div class="modal-body">
                 <div class="row clearfix">
