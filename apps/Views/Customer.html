@@ -15,9 +15,7 @@
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
-                            <th>Type Cutomer</th>
                             <th>Nama Kontak</th>
-                            <th>Telephon 1</th>
                             <th>Handphone</th>
                             <th>Alamat</th>
                             <th>Email</th>
@@ -28,14 +26,13 @@
                         <tr ng-repeat="item in DataCustomer">
                             <th scope="row">{{$index+1}}</th>
                             <td>{{item.Name}}</td>
-                            <td>{{item.CustomerType}}</td>
                             <td>{{item.ContactName}}</td>
-                            <td>{{item.Phone1}}</td>
                             <td>{{item.Handphone}}</td>
                             <td>{{item.Address}}</td>
                             <td>{{item.Email}}</td>
                             <td>
-                                <button type="button" ng-click="SelectedCustomer(item)" class="btn btn-default waves-effect m-r-20 pull-right" data-toggle="modal" data-target="#EditCity"><i class="material-icons">edit</i></button>
+                                <button type="button" title="Edit" ng-click="SelectedCustomer(item)" class="btn btn-default waves-effect m-r-20 pull-right" data-toggle="modal" data-target="#EditCity"><i class="material-icons">edit</i></button>
+                                <button type="button" title="Detail Customer" ng-click="SelectedCustomer(item)" class="btn btn-default waves-effect m-r-20 pull-right" data-toggle="modal" data-target="#DetailCity"><i class="material-icons">details</i></button>
                             </td>
                         </tr>
                     </tbody>
@@ -171,6 +168,128 @@
             </div>
             <div class="modal-footer">
                 <button type="button" ng-click="UpdateDataCustomer()" class="btn btn-link waves-effect" data-dismiss="modal">SAVE CHANGES</button>
+                <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="DetailCity" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="smallModalLabel">Detail {{DataUpdateCustomer.Name}}</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="col-sm-12">
+                    <div class="col-sm-3">
+                        <h5 id="smallModalLabel">
+                            Jenis
+                        </h5>
+                    </div>
+                    <div class="col-sm-1 pull-left">
+                        <h5>:</h5>
+                    </div>
+                    <div class="col-sm-7 pull-left">
+                        <h5><span class="label label-default">{{DataUpdateCustomer.CustomerType}}</span></h5>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="col-sm-3">
+                        <h5 id="smallModalLabel">
+                            Nama Kontak
+                        </h5>
+                    </div>
+                    <div class="col-sm-1 pull-left">
+                        <h5>:</h5>
+                    </div>
+                    <div class="col-sm-7 pull-left">
+                        <h5><span class="label label-default">{{DataUpdateCustomer.ContactName}}</span></h5>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="col-sm-3">
+                        <h5 id="smallModalLabel">
+                            Telp 1
+                        </h5>
+                    </div>
+                    <div class="col-sm-1 pull-left">
+                        <h5>:</h5>
+                    </div>
+                    <div class="col-sm-7 pull-left">
+                        <h5><span class="label label-default">{{DataUpdateCustomer.Phone1}}</span></h5>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="col-sm-3">
+                        <h5 id="smallModalLabel">
+                            Telp 2
+                        </h5>
+                    </div>
+                    <div class="col-sm-1 pull-left">
+                        <h5>:</h5>
+                    </div>
+                    <div class="col-sm-7 pull-left">
+                        <h5><span class="label label-default">{{DataUpdateCustomer.Phone2}}</span></h5>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="col-sm-3">
+                        <h5 id="smallModalLabel">
+                            Handphone
+                        </h5>
+                    </div>
+                    <div class="col-sm-1 pull-left">
+                        <h5>:</h5>
+                    </div>
+                    <div class="col-sm-7 pull-left">
+                        <h5><span class="label label-default">{{DataUpdateCustomer.Handphone}}</span></h5>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="col-sm-3">
+                        <h5 id="smallModalLabel">
+                            Alamat
+                        </h5>
+                    </div>
+                    <div class="col-sm-1 pull-left">
+                        <h5>:</h5>
+                    </div>
+                    <div class="col-sm-7 pull-left">
+                        <h5><span class="label label-default">{{DataUpdateCustomer.Address}}</span></h5>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="col-sm-3">
+                        <h5 id="smallModalLabel">
+                            Email
+                        </h5>
+                    </div>
+                    <div class="col-sm-1 pull-left">
+                        <h5>:</h5>
+                    </div>
+                    <div class="col-sm-7 pull-left">
+                        <h5><span class="label label-default">{{DataUpdateCustomer.Email}}</span></h5>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="col-sm-3">
+                        <h5 id="smallModalLabel">
+                            Kota
+                        </h5>
+                    </div>
+                    <div class="col-sm-1 pull-left">
+                        <h5>:</h5>
+                    </div>
+                    <div class="col-sm-7 pull-left">
+                        <h5><span class="label label-default">{{DataUpdateCustomer.CityName}}</span></h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link waves-effect">SAVE CHANGES</button>
                 <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
             </div>
         </div>

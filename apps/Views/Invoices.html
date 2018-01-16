@@ -14,13 +14,10 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Id</th>
                             <th>Number</th>
                             <th>Customer</th>
                             <th>Invoice Status</th>
-                            <th>DeadLine</th>
                             <th>Invoice Pay Type</th>
-                            <th>Create Date</th>
                             <th>Paid Date</th>
                             <th>Action</th>
                         </tr>
@@ -28,14 +25,11 @@
                     <tbody>
                         <tr ng-repeat="item in Datasinvoice">
                             <th scope="row">{{$index+1}}</th>
-                            <td>{{item.Id}}</td>
                             <td>{{item.Number}}</td>
-                            <td>{{item.CustomerId}}</td>
+                            <td>{{item.CustomerName}}</td>
                             <td>{{item.InvoiceStatus}}</td>
-                            <td>{{item.DeadLine}}</td>
                             <td>{{item.InvoicePayType}}</td>
-                            <td>{{item.CreateDate}}</td>
-                            <td>{{item.PaidDate}}</td>
+                            <td>{{item.PaidDate| date:'dd-MM-yyyy'}}</td>
                             <td>
                                 <ul class="header-dropdown">
                                     <li class="dropdown">
@@ -44,7 +38,7 @@
                                         </a>
                                         <ul class="dropdown-menu pull-right">
                                             <li>
-                                                <button type="button" ng-click="Selected(item)" class="btn btn-default waves-effect m-r-20 pull-right" data-toggle="modal" data-target="#EditCity"><i class="material-icons">edit</i></button>
+                                                <button type="button" ng-click="SelectedEdit(item)" class="btn btn-default waves-effect m-r-20 pull-right" data-toggle="modal" data-target="#EditCity"><i class="material-icons">edit</i></button>
                                             </li>
                                             <li>
                                                 <button type="button" ng-click="Print(item)" class="btn btn-default waves-effect m-r-20 pull-right"><i class="material-icons">print</i></button>
@@ -105,36 +99,28 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="defaultModalLabel">Edit City</h4>
+                <h4 class="modal-title" id="defaultModalLabel">Status Pembayaran</h4>
             </div>
             <div class="modal-body">
                 <div class="row clearfix">
                     <div class="col-sm-12">
                         <div class="form-group">
+                            <label>Status Bayar</label>
                             <div class="form-line">
-                                <input type="text" ng-model="SelectedItemCity.Province" class="form-control" placeholder="Provinsi" />
+                                <select class="form-control" ng-options="item as item.status for item in DataStatus track by item.status" ng-model="SelectedDataStatus"></select>
                             </div>
                         </div>
                         <div class="form-group">
+                            <label>Tanggal Bayar</label>
                             <div class="form-line">
-                                <input type="text" ng-model="SelectedItemCity.Regency" class="form-control" placeholder="Kabupaten" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="form-line">
-                                <input type="text" ng-model="SelectedItemCity.CityName" class="form-control" placeholder="Nama Kota" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="form-line">
-                                <input type="text" ng-model="SelectedItemCity.CityCode" class="form-control" placeholder="Kode Kota" />
+                                <input type="date" ng-model="DataUbah.PayDate" class="form-control" />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" ng-click="UpdateDataCity()" class="btn btn-link waves-effect" data-dismiss="modal">SAVE CHANGES</button>
+                <button type="button" ng-click="UpdateData()" class="btn btn-link waves-effect" data-dismiss="modal">Update</button>
                 <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
             </div>
         </div>

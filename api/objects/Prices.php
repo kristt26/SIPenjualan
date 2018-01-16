@@ -113,23 +113,37 @@ class Prices{
        $query = "UPDATE
                    " . $this->table_name . "
                SET
-                    NamaBidang=:NamaBidang, 
-                    KepalaBagian=:KepalaBagian                  
+               ShiperId=:ShiperId, 
+               ReciverId=:ReciverId, 
+               PortType=:PortType, 
+               PayType=:PayType, 
+               FromCity=:FromCity, 
+               ToCity=:ToCity, 
+               Price=:Price                  
                WHERE
-                   IdBidang = :IdBidang";
+                   Id = :Id";
     
        // prepare query statement
        $stmt = $this->conn->prepare($query);
     
        // sanitize
-       $this->IdBidang=htmlspecialchars(strip_tags($this->IdBidang));
-       $this->NamaBidang=htmlspecialchars(strip_tags($this->NamaBidang));
-       $this->KepalaBagian=htmlspecialchars(strip_tags($this->KepalaBagian));
-    
-       // bind new values
-       $stmt->bindParam(":IdBidang", $this->IdBidang);
-       $stmt->bindParam(":NamaBidang", $this->NamaBidang);
-       $stmt->bindParam(":KepalaBagian", $this->KepalaBagian);
+       $this->Id=htmlspecialchars(strip_tags($this->Id));
+       $this->ShiperId=htmlspecialchars(strip_tags($this->ShiperId));
+       $this->ReciverId=htmlspecialchars(strip_tags($this->ReciverId));
+       $this->PortType=htmlspecialchars(strip_tags($this->PortType));
+       $this->PayType=htmlspecialchars(strip_tags($this->PayType));
+       $this->FromCity=htmlspecialchars(strip_tags($this->FromCity));
+       $this->ToCity=htmlspecialchars(strip_tags($this->ToCity));
+       $this->Price=htmlspecialchars(strip_tags($this->Price));
+       // bind values
+       $stmt->bindParam(":Id", $this->Id);
+       $stmt->bindParam(":ShiperId", $this->ShiperId);
+       $stmt->bindParam(":ReciverId", $this->ReciverId);
+       $stmt->bindParam(":PortType", $this->PortType);
+       $stmt->bindParam(":PayType", $this->PayType);
+       $stmt->bindParam(":FromCity", $this->FromCity);
+       $stmt->bindParam(":ToCity", $this->ToCity);
+       $stmt->bindParam(":Price", $this->Price);
     
        // execute the query
        if($stmt->execute()){

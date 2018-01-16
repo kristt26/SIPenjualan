@@ -1,50 +1,23 @@
 angular.module("Ctrl", [])
 
 
-.controller("MainController", function($scope, $http, $rootScope) {
+.controller("MainController", function($scope, $http, $rootScope, SessionService) {
     $scope.DataAuth = {};
     $rootScope.Session = {};
 
     $scope.Init = function() {
 
         //Get Auth
-        var Getauth = "api/datas/auth.php";
-        $http({
-                method: "get",
-                url: Getauth
-            })
-            .then(function(response) {
-                if (response.data.Session == null) {
-                    window.location.href = 'System/pages/sign-in.html';
-                } else
-                    $rootScope.Session = response.data.Session;
-            }, function(error) {
-                alert(error.message);
-            })
+
         $scope.Title = "Ini Judul Dari Controller";
     }
 })
 
-.controller("CityController", function($scope, $http, $rootScope) {
+.controller("CityController", function($scope, $http, $rootScope, SessionService) {
     $scope.DataCity = [];
     $scope.DatasInputCity = {};
     $scope.SelectedItemCity = {};
-    $rootScope.Session = {};
     $scope.Init = function() {
-        //Get Auth
-        var Getauth = "api/datas/auth.php";
-        $http({
-                method: "get",
-                url: Getauth
-            })
-            .then(function(response) {
-                if (response.data.Session.Email == undefined) {
-                    window.location.href = 'System/pages/sign-in.html';
-                } else
-                    $rootScope.Session = response.data.Session;
-            }, function(error) {
-                alert(error.message);
-            })
 
         var GetCity = "api/City.php?action=GetCity";
         $http({
@@ -106,32 +79,16 @@ angular.module("Ctrl", [])
 
 })
 
-.controller("UserController", function($scope, $http, $rootScope) {
+.controller("UserController", function($scope, $http, SessionService) {
     $scope.DataUsers = [];
     $scope.DataSelected = {};
     $scope.InputUser = {};
-    $rootScope.Session = {};
     $scope.DataJabatan = [
         { Jabatan: 'Admin' }, { Jabatan: 'Bendahara' }, { Jabatan: 'StafOps' }
     ];
     $scope.SelectJabatan = {};
 
     $scope.Init = function() {
-        //Get Auth
-        var Getauth = "api/datas/auth.php";
-        $http({
-                method: "get",
-                url: Getauth
-            })
-            .then(function(response) {
-                if (response.data.Session.Email == undefined) {
-                    window.location.href = 'System/pages/sign-in.html';
-                } else
-                    $rootScope.Session = response.data.Session;
-            }, function(error) {
-                alert(error.message);
-            })
-
         var UrlUser = "api/datas/readUsers.php";
         $http({
                 method: "get",
@@ -170,30 +127,16 @@ angular.module("Ctrl", [])
     }
 })
 
-.controller("CustomerController", function($scope, $http, $rootScope) {
+.controller("CustomerController", function($scope, $http, SessionService) {
     $scope.DataCustomer = [];
     $scope.InputCustomer = {};
-    $rootScope.Session = {};
     $scope.DataCity = [];
     $scope.SelectedItemCity = {};
     $scope.CustomerType = [{ 'Type': 'Organization' }, { 'Type': 'Person' }];
     $scope.SelectedCusType = {};
     $scope.DataUpdateCustomer = {};
     $scope.Init = function() {
-        //Get Auth
-        var Getauth = "api/datas/auth.php";
-        $http({
-                method: "get",
-                url: Getauth
-            })
-            .then(function(response) {
-                if (response.data.Session.Email == undefined) {
-                    window.location.href = 'System/pages/sign-in.html';
-                } else
-                    $rootScope.Session = response.data.Session;
-            }, function(error) {
-                alert(error.message);
-            })
+
 
 
         //Get City
@@ -256,16 +199,31 @@ angular.module("Ctrl", [])
         $scope.DataUpdateCustomer.CityID = $scope.SelectedItemCity.Id;
         $scope.DataUpdateCustomer.CustomerType = $scope.SelectedCusType.Type;
         var Data = angular.copy($scope.DataUpdateCustomer);
-        var UrlUpdateCustomer = "api/datas/createCustomer.php"
+        var UrlUpdateCustomer = "api/datas/updateCustomer.php"
         $http({
                 method: "post",
                 url: UrlUpdateCustomer,
                 data: Data
             })
             .then(function(response) {
-                Data.Id = response.data.message;
-                $scope.DataCustomer.push(Data);
-
+                if (response.data.message == "Customer Was Update") {
+                    angular.forEach($scope.DataCustomer, function(value, key) {
+                        if (value.Id == Data.Id) {
+                            value.Name = Data.Name;
+                            value.CustomerType = Data.CustomerType;
+                            value.ContactName = Data.ContactName;
+                            value.Phone1 = Data.Phone1;
+                            value.Phone2 = Data.Phone2;
+                            value.Handphone = Data.Handphone;
+                            value.Address = Data.Address;
+                            value.Email = Data.Email;
+                            value.CityID = Data.CityID;
+                            value.CityName = Data.CityName
+                        }
+                    })
+                    alert(response.data.message);
+                } else
+                    alert("Gagal Update");
             }, function(error) {
                 alert(error.message);
             })
@@ -273,9 +231,8 @@ angular.module("Ctrl", [])
 })
 
 
-.controller("PenjualanController", function($scope, $http, $location, $filter, $rootScope) {
+.controller("PenjualanController", function($scope, $http, $location, $filter, $rootScope, SessionService) {
     $scope.DataPenjualan = [];
-    $rootScope.Session = {};
     $scope.DataCustomer = [];
     $scope.SelectedItemCustomerAsal = {};
     $scope.SelectedItemCustomerTujuan = {};
@@ -284,6 +241,9 @@ angular.module("Ctrl", [])
     $scope.LastRecordPenjualan = {};
     $scope.SelectedItemCityAsal = {};
     $scope.SelectedItemCityTujuan = {};
+    $scope.SelectedItemPayType = {};
+    $scope.SelectedItemPortType = {};
+    $scope.SelectedItemPrice = {};
     $scope.SelectedDataHarga = {};
     $scope.ItemCetak = {};
     $scope.DataVia = [
@@ -320,7 +280,7 @@ angular.module("Ctrl", [])
                 alert(error.message);
             })
 
-        //Get lastrecordpenjualan
+        //Get lastrecordpenjualan untuk nomer STT baru
         var GetCity = "api/datas/readLastRecordPenjualan.php";
         $http({
                 method: "get",
@@ -333,11 +293,7 @@ angular.module("Ctrl", [])
                 alert(error.message);
             })
 
-        if ($scope.Coly == 0) {
-            $scope.Tampil = true;
-        } else {
-            $scope.Tampil = false;
-        }
+
 
         //Get lastrecordpenjualan
         var GetPenjualan = "api/datas/readPenjualan.php";
@@ -348,16 +304,6 @@ angular.module("Ctrl", [])
             .then(function(response) {
                 $scope.DataPenjualan = response.data.records;
                 angular.forEach($scope.DataPenjualan, function(itemPenjualan, keyP) {
-                    angular.forEach($scope.DataCustomer, function(ItemCutomer, keyC) {
-                        if (ItemCutomer.Id == itemPenjualan.ShiperID)
-                            itemPenjualan.ShiperName = ItemCutomer.Name;
-                        else if (ItemCutomer.Id == itemPenjualan.ReciverID)
-                            itemPenjualan.ReciverName = ItemCutomer.Name;
-                    })
-                    angular.forEach($scope.DataCity, function(ItemCity, keyy) {
-                        if (ItemCity.Id == itemPenjualan.CityID)
-                            itemPenjualan.CityName = ItemCity.CityName;
-                    })
                     var Nilai = ((parseInt(itemPenjualan.Price) * parseInt(itemPenjualan.Weight)) + parseInt(itemPenjualan.PackingCosts) + parseInt(itemPenjualan.Etc));
                     var Pajak = parseInt(Nilai) * (parseInt(itemPenjualan.Tax) / 100);
                     itemPenjualan.Total = parseInt(Nilai) + parseInt(Pajak);
@@ -389,8 +335,8 @@ angular.module("Ctrl", [])
         //Get City
         $scope.SelectedDataHarga.ShiperId = $scope.SelectedItemCustomerAsal.Id;
         $scope.SelectedDataHarga.ReciverId = $scope.SelectedItemCustomerTujuan.Id;
-        $scope.SelectedDataHarga.PortType = $scope.DataInputPenjualan.PortType.port;
-        $scope.SelectedDataHarga.PayType = $scope.DataInputPenjualan.PayType.status;
+        $scope.SelectedDataHarga.PortType = $scope.SelectedItemPortType.port;
+        $scope.SelectedDataHarga.PayType = $scope.SelectedItemPayType.status;
         $scope.SelectedDataHarga.FromCity = $scope.SelectedItemCityAsal.Id;
         $scope.SelectedDataHarga.ToCity = $scope.SelectedItemCityTujuan.Id;
         $scope.DataInputPenjualan.PackingCosts = "0";
@@ -405,12 +351,13 @@ angular.module("Ctrl", [])
             })
             .then(function(response) {
                 if (response.data.num > 0) {
-                    $scope.DataInputPenjualan.Price = response.data.records[0];
-                    $scope.DataInputPenjualan.Biaya = parseInt($scope.DataInputPenjualan.Price.Price) * parseInt($scope.DataInputPenjualan.Weight);
-                    $scope.DataInputPenjualan.TotalSementara = parseInt($scope.DataInputPenjualan.Price.Price) * parseInt($scope.DataInputPenjualan.Weight);
+                    $scope.SelectedItemPrice = response.data.records[0];
+                    $scope.DataInputPenjualan.Biaya = parseInt($scope.SelectedItemPrice.Price) * parseInt($scope.DataInputPenjualan.Weight);
+                    $scope.DataInputPenjualan.TotalSementara = parseInt($scope.SelectedItemPrice.Price) * parseInt($scope.DataInputPenjualan.Weight);
                     $scope.DataInputPenjualan.Total = angular.copy($scope.DataInputPenjualan.TotalSementara);
+                    $scope.DataInputPenjualan.Price = $scope.SelectedItemPrice.Price;
                 } else {
-                    $scope.DataInputPenjualan.Price = null;
+                    $scope.SelectedItemPrice = null;
                     alert("Tidak Harga untuk Item yang bersangkutan");
                 }
 
@@ -469,18 +416,36 @@ angular.module("Ctrl", [])
     //Insert Penjualan
     $scope.InsertPenjualan = function() {
         $scope.DataInputPenjualan.ShiperID = $scope.SelectedItemCustomerAsal.Id;
+        $scope.DataInputPenjualan.ShiperName = $scope.SelectedItemCustomerAsal.Name;
         $scope.DataInputPenjualan.ReciverID = $scope.SelectedItemCustomerTujuan.Id;
+        $scope.DataInputPenjualan.ReciverName = $scope.SelectedItemCustomerTujuan.Name;
         $scope.DataInputPenjualan.CityID = $scope.SelectedItemCityTujuan.Id;
+        $scope.DataInputPenjualan.CityName = $scope.SelectedItemCityTujuan.CityName;
+        $scope.DataInputPenjualan.PortType = $scope.SelectedItemPortType.port;
+        $scope.DataInputPenjualan.PayType = $scope.SelectedItemPayType.status;
+
         var Data = $scope.DataInputPenjualan;
         var UrlInsertPenjualan = "api/datas/createPenjualan.php";
         $http({
-                method: "port",
+                method: "post",
                 url: UrlInsertPenjualan,
                 data: Data
             })
             .then(function(response) {
                 if (response.data.message) {
-                    $location.path("/Penjualan")
+                    var UrlCetakNota = "api/datas/cetakNota.php";
+                    $http({
+                            method: "post",
+                            url: UrlCetakNota,
+                            data: Data
+                        })
+                        .then(function(response) {
+                            window.open('apps/Report/Notaa.html', '_blank');
+                            $location.path("/Penjualan");
+                        }, function(error) {
+                            alert(error.message);
+                        })
+
                 }
                 //Data.Id = response.data.message
             }, function(error) {
@@ -494,7 +459,7 @@ angular.module("Ctrl", [])
         var Data = $scope.ItemCetak;
         var UrlCetakNota = "api/datas/cetakNota.php";
         $http({
-                method: "port",
+                method: "post",
                 url: UrlCetakNota,
                 data: Data
             })
@@ -508,9 +473,8 @@ angular.module("Ctrl", [])
 
 })
 
-.controller("PricesController", function($scope, $http, $rootScope) {
+.controller("PricesController", function($scope, $http, $rootScope, SessionService) {
     $scope.DataPrices = [];
-    $rootScope.Session = {};
     $scope.DataCity = [];
     $scope.DataCustomer = [];
     $scope.SelectedShiper = {};
@@ -522,21 +486,8 @@ angular.module("Ctrl", [])
     $scope.SelectedPort = {};
     $scope.PayType = [{ 'pay': 'Credit' }, { 'pay': 'COD' }, { 'pay': 'Cash' }];
     $scope.SelectedPay = {};
+    $scope.DataSelectedItem = {};
     $scope.Init = function() {
-        //Get Auth
-        var Getauth = "api/datas/auth.php";
-        $http({
-                method: "get",
-                url: Getauth
-            })
-            .then(function(response) {
-                if (response.data.Session.Email == undefined) {
-                    window.location.href = 'System/pages/sign-in.html';
-                } else
-                    $rootScope.Session = response.data.Session;
-            }, function(error) {
-                alert(error.message);
-            })
 
         //Get City
         var GetCity = "api/datas/readCity.php";
@@ -570,20 +521,6 @@ angular.module("Ctrl", [])
             })
             .then(function(response) {
                 $scope.DataPrices = response.data.records;
-                angular.forEach($scope.DataPrices, function(valprice, keyprice) {
-                    angular.forEach($scope.DataCustomer, function(valcus, keycus) {
-                        if (valcus.Id == valprice.ShiperId)
-                            valprice.ShiperName = valcus.Name;
-                        if (valcus.Id == valprice.ReciverId)
-                            valprice.ReciverName = valcus.Name;
-                    })
-                    angular.forEach($scope.DataCity, function(valcity, keycity) {
-                        if (valcity.Id == valprice.FromCity)
-                            valprice.FromCityName = valcity.CityName;
-                        if (valcity.Id == valprice.ToCity)
-                            valprice.ToCityName = valcity.CityName;
-                    })
-                })
             }, function(error) {
                 alert(error.message);
             })
@@ -624,15 +561,64 @@ angular.module("Ctrl", [])
         $scope.SelectedToCity = {};
         $scope.SelectedPort = {};
         $scope.SelectedPay = {};
+    }
+    $scope.SelectedPrice = function(item) {
+        $scope.DataSelectedItem = item;
+        $scope.SelectedPort.port = $scope.DataSelectedItem.PortType;
+        $scope.SelectedPay.pay = $scope.DataSelectedItem.PayType;
+        angular.forEach($scope.DataCustomer, function(valueCustom, KeyCustom) {
+            if (valueCustom.Id == $scope.DataSelectedItem.ShiperId) {
+                $scope.SelectedShiper = valueCustom;
+            }
+            if (valueCustom.Id == $scope.DataSelectedItem.ReciverId) {
+                $scope.SelectedReciver = valueCustom;
+            }
+        })
 
+        angular.forEach($scope.DataCity, function(ValCity, KeyCity) {
+            if (ValCity.Id == $scope.DataSelectedItem.FromCity) {
+                $scope.SelectedFromCity = ValCity;
+            }
+            if (ValCity.Id == $scope.DataSelectedItem.ToCity) {
+                $scope.SelectedToCity = ValCity;
+            }
 
+        })
+    }
+    $scope.UpdateDataPrice = function() {
+        $scope.DataSelectedItem.ShiperId = $scope.SelectedShiper.Id;
+        $scope.DataSelectedItem.ShiperName = $scope.SelectedShiper.Name;
+        $scope.DataSelectedItem.ReciverId = $scope.SelectedReciver.Id;
+        $scope.DataSelectedItem.ReciverName = $scope.SelectedReciver.Name;
+        $scope.DataSelectedItem.FromCity = $scope.SelectedFromCity.Id;
+        $scope.DataSelectedItem.FromCityName = $scope.SelectedFromCity.CityName;
+        $scope.DataSelectedItem.ToCity = $scope.SelectedToCity.Id;
+        $scope.DataSelectedItem.ToCityName = $scope.SelectedToCity.CityName;
+        $scope.DataSelectedItem.PortType = $scope.SelectedPort.port;
+        $scope.DataSelectedItem.PayType = $scope.SelectedPay.pay;
+        var Data = angular.copy($scope.DataSelectedItem);
+        var UrlUpdatePrice = "api/datas/updatePrice.php";
+        $http({
+                method: "post",
+                url: UrlUpdatePrice,
+                data: Data
+            })
+            .then(function(response) {
+                if (response.data.message != "Price Was Update") {
+                    Data.Id = response.data.message;
+                    $scope.DataPrices.push(Data);
+
+                } else
+                    alert(response.data.message);
+            }, function(error) {
+                alert(error.message);
+            });
     }
 
 })
 
-.controller("InvoicesController", function($scope, $http, $rootScope) {
+.controller("InvoicesController", function($scope, $http, SessionService) {
     $scope.Datasinvoice = [];
-    $rootScope.Session = {};
     $scope.DataDetail = [];
     $scope.DataInputInvoice = {};
     $scope.DataCustomer = [];
@@ -642,23 +628,11 @@ angular.module("Ctrl", [])
     $scope.STT = [];
     $scope.DataChecked = {};
     $scope.PayType = [{ pay: 'Transfer' }, { pay: 'Chash' }];
+    $scope.DataStatus = [{ status: 'Paid' }, { status: 'Pending' }, { status: 'Cancel' }];
     $scope.SelectedItemPay = {};
+    $scope.DataUbah = {};
+    $scope.SelectedDataStatus = {};
     $scope.Init = function() {
-        //Get Auth
-        var Getauth = "api/datas/auth.php";
-        $http({
-                method: "get",
-                url: Getauth
-            })
-            .then(function(response) {
-                if (response.data.Session.Email == undefined) {
-                    window.location.href = 'System/pages/sign-in.html';
-                } else
-                    $rootScope.Session = response.data.Session;
-            }, function(error) {
-                alert(error.message);
-            })
-
         var Getinv = "api/datas/readInvoices.php";
         $http({
                 method: "get",
@@ -822,6 +796,35 @@ angular.module("Ctrl", [])
 
     }
 
+    $scope.SelectedEdit = function(item) {
+        $scope.DataUbah = item;
+
+    }
+
+    $scope.UpdateData = function() {
+        $scope.DataUbah.Paid = $scope.SelectedDataStatus.status;
+        var Data = $scope.DataUbah;
+        var UrlUpdateStatusBayar = "api/datas/updatePaid.php";
+        $http({
+                method: "post",
+                url: UrlUpdateStatusBayar,
+                data: Data
+            })
+            .then(function(response) {
+                if (response.data.message == "Invoice Was Update") {
+                    angular.forEach($scope.Datasinvoice, function(value, key) {
+                        if (value.Id == Data.Id) {
+                            value.InvoiceStatus = Data.Paid;
+                            value.PaidDate = Data.PayDate;
+                        }
+                    })
+                    alert("Invoice Was Update");
+                }
+            }, function(error) {
+                alert(error.message);
+            })
+    }
+
 })
 
 
@@ -840,4 +843,68 @@ angular.module("Ctrl", [])
             })
     }
 
-});
+
+
+})
+
+.controller("LaporanController", function($scope, $http) {
+    $scope.DataPenjualan = [];
+    $scope.DataSearch = {};
+    $scope.StatusPay = [{ IsPaid: 'Lunas' }, { IsPaid: 'Piutang' }];
+    $scope.SelectedItemPaid = {};
+    $scope.Init = function() {
+
+    }
+
+    $scope.Cari = function() {
+        var GetPenjualan = "api/datas/readPenjualanByDate.php";
+        if ($scope.SelectedItemPaid.IsPaid == "Lunas")
+            $scope.DataSearch.IsPaid = "true";
+        else
+            $scope.DataSearch.IsPaid = "false";
+        var Data = $scope.DataSearch;
+        $http({
+                method: "post",
+                url: GetPenjualan,
+                data: Data
+            })
+            .then(function(response) {
+                $scope.DataPenjualan = response.data.records;
+                angular.forEach($scope.DataPenjualan, function(itemPenjualan, keyP) {
+                    var Nilai = ((parseInt(itemPenjualan.Price) * parseInt(itemPenjualan.Weight)) + parseInt(itemPenjualan.PackingCosts) + parseInt(itemPenjualan.Etc));
+                    var Pajak = parseInt(Nilai) * (parseInt(itemPenjualan.Tax) / 100);
+                    itemPenjualan.Total = parseInt(Nilai) + parseInt(Pajak);
+
+                })
+            }, function(error) {
+                alert(error.message);
+            })
+    }
+
+    $scope.Cetak = function() {
+        var GetPenjualan = "api/datas/readPenjualanByDate.php";
+        if ($scope.SelectedItemPaid.IsPaid == "Lunas")
+            $scope.DataSearch.IsPaid = "true";
+        else
+            $scope.DataSearch.IsPaid = "false";
+        var Data = $scope.DataSearch;
+        var UrlCetak = "api/datas/cetakLaporan.php";
+        $http({
+                method: "post",
+                url: UrlCetak,
+                data: Data
+            })
+            .then(function(response) {
+                if (response.data.message == "Success")
+                    window.open('apps/Report/LaporanPenjualan.html', '_blank');
+            }, function(error) {
+                alert(error.message);
+            })
+
+    }
+
+
+
+})
+
+;

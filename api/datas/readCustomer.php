@@ -6,6 +6,7 @@ header("Content-Type: application/json; charset=UTF-8");
 // include database and object files
 include_once '../../api/config/database.php';
 include_once '../../api/objects/Customer.php';
+include_once '../../api/objects/City.php';
  
 // instantiate database and product object
 $database = new Database();
@@ -13,6 +14,8 @@ $db = $database->getConnection();
  
 // initialize object
 $customer = new Customer($db);
+
+$city = new City($db);
  
 // query products
 $stmt = $customer->read();   
@@ -33,7 +36,10 @@ if($num>0){
         // this will make $row['name'] to
         // just $name only
         extract($row);
- 
+
+        $city->Id=$CityID;
+        $city->readOne();
+
         $customer_item=array(
              "Id"=>$Id,
              "Name"=>$Name,
@@ -44,7 +50,8 @@ if($num>0){
              "Handphone"=>$Handphone,
              "Address"=>$Address,
              "Email"=>$Email,
-             "CityID"=>$CityID
+             "CityID"=>$CityID,
+             "CityName"=>$city->CityName
         );
  
         array_push($customer_arr["records"], $customer_item);

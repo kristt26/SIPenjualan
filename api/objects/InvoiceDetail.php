@@ -35,6 +35,24 @@ class InvoiceDetail{
            return $stmtBySTT;
     }
 
+    function readByInvoice(){
+        
+        // select all query
+        $query = "SELECT * from ".$this->table_name." where InvoiceId=?";
+     
+        // prepare query statement
+        $stmtBySTT = $this->conn->prepare($query);
+
+        $this->InvoiceId=htmlspecialchars(strip_tags($this->InvoiceId));
+
+        $stmtBySTT->bindParam(1, $this->InvoiceId);
+     
+        // execute query
+        $stmtBySTT->execute();
+     
+        return $stmtBySTT;
+    }
+
     // read products
     function readOne(){
         

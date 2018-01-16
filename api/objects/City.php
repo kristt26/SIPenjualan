@@ -34,6 +34,29 @@ class City{
     }
 
    // create product
+   function readOne(){
+       // select all query
+       $query = "SELECT * from ".$this->table_name." where Id=?";
+    
+       // prepare query statement
+       $stmt = $this->conn->prepare($query);
+
+       $this->Id=htmlspecialchars(strip_tags($this->Id));
+
+       $stmt->bindParam(1, $this->Id);
+    
+       // execute query
+       $stmt->execute();
+
+       $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+       $this->Province=$row['Province'];
+       $this->Regency=$row['Regency'];
+       $this->CityName=$row['CityName'];
+       $this->CityCode=$row['CityCode'];
+   }
+
+
     function create(){
     
        // query to insert record

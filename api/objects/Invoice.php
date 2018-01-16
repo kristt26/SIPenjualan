@@ -129,6 +129,38 @@ class Invoice{
        }
    }
 
+   function updateStatusPaid(){
+    
+    // update query
+    $query = "UPDATE
+                " . $this->table_name . "
+            SET
+                 InvoiceStatus=:InvoiceStatus,
+                 PaidDate=:PaidDate              
+            WHERE
+                Id = :Id";
+ 
+    // prepare query statement
+    $stmt = $this->conn->prepare($query);
+ 
+    // sanitize
+    $this->Id=htmlspecialchars(strip_tags($this->Id));
+    $this->InvoiceStatus=htmlspecialchars(strip_tags($this->InvoiceStatus));
+    $this->PaidDate=htmlspecialchars(strip_tags($this->PaidDate));
+ 
+    // bind new values
+    $stmt->bindParam(":Id", $this->Id);
+    $stmt->bindParam(":InvoiceStatus", $this->InvoiceStatus);
+    $stmt->bindParam(":PaidDate", $this->PaidDate);
+ 
+    // execute the query
+    if($stmt->execute()){
+        return true;
+    }else{
+        return false;
+    }
+}
+
    // delete the Bidang
    function delete(){
     

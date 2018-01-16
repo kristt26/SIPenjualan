@@ -25,6 +25,9 @@ class Penjualan{
     public $DoNumber;
     public $Note;
     public $CreateDate;
+
+    public $TglAwal;
+    public $TglAkhir;
     
  
     // constructor with $db as database connection
@@ -86,6 +89,30 @@ class Penjualan{
            $stmt->execute();
         
            return $stmt;
+    }
+
+    function readByDate(){
+        
+        // select all query
+        $query = "SELECT * from ".$this->table_name." where IsPaid=? and CreateDate >=? and CreateDate <=?";
+     
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+
+        // sanitize
+        $this->IsPaid=htmlspecialchars(strip_tags($this->IsPaid));
+        $this->TglAkhir=htmlspecialchars(strip_tags($this->TglAkhir));
+        $this->TglAwal=htmlspecialchars(strip_tags($this->TglAwal));
+    
+       // bind id of record to delete
+       $stmt->bindParam(1, $this->IsPaid);
+       $stmt->bindParam(2, $this->TglAwal);
+       $stmt->bindParam(3, $this->TglAkhir);
+     
+        // execute query
+        $stmt->execute();
+     
+        return $stmt;
     }
 
     // read products
@@ -199,6 +226,35 @@ class Penjualan{
            return false;
        }
    }
+
+   function updatePaid(){
+    
+            // update query
+        $query = "UPDATE
+                    " . $this->table_name . "
+                SET
+                    IsPaid=:IsPaid 
+                WHERE
+                    STT = :STT";
+    
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+    
+        // sanitize
+        $this->IsPaid=htmlspecialchars(strip_tags($this->IsPaid));
+        $this->STT=htmlspecialchars(strip_tags($this->STT));
+    
+        // bind new values
+        $stmt->bindParam(":IsPaid", $this->IsPaid);
+        $stmt->bindParam(":STT", $this->STT);
+    
+        // execute the query
+        if($stmt->execute()){
+            return true;
+        }else{
+            return false;
+        }
+    }   
 
    // delete the Bidang
    function delete(){

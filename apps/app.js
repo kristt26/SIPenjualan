@@ -60,9 +60,9 @@ angular.module("app", ["ngRoute", "Ctrl"])
             controller: "LogController"
         })
 
-        .when("/form", {
-            templateUrl: "apps/Views/form.html",
-            controller: ""
+        .when("/Laporan", {
+            templateUrl: "apps/Views/Laporan.html",
+            controller: "LaporanController"
         });
     })
 
@@ -88,6 +88,28 @@ angular.module("app", ["ngRoute", "Ctrl"])
             return result;
         }
     };
+})
+
+.factory("SessionService", function($http, $rootScope) {
+    var service = {};
+    $rootScope.Session = {};
+    var Getauth = "api/datas/auth.php";
+    var Getauth = "api/datas/auth.php";
+    $http({
+            method: "get",
+            url: Getauth
+        })
+        .then(function(response) {
+            if (response.data.Session == null) {
+                window.location.href = 'System/pages/sign-in.html';
+            } else
+                $rootScope.Session = response.data.Session;
+        }, function(error) {
+            alert(error.message);
+        })
+
+
+    return service;
 })
 
 

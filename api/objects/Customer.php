@@ -38,6 +38,35 @@ class Customer{
        return $stmt;
     }
 
+    function readOne(){
+    
+        // select all query
+        $query = "SELECT * from ".$this->table_name." WHERE Id=?";
+     
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+
+        $this->Id=htmlspecialchars(strip_tags($this->Id));
+    
+       // bind id of record to delete
+       $stmt->bindParam(1, $this->Id);
+     
+        // execute query
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $this->Name = $row['Name'];
+        $this->CustomerType=$row['CustomerType'];
+        $this->ContactName=$row['ContactName'];
+        $this->Phone1=$row['Phone1'];
+        $this->Phone2=$row['Phone2'];
+        $this->Handphone=$row['Handphone'];
+        $this->Address=$row['Address'];
+        $this->Email=$row['Email'];
+        $this->CityID=$row['CityID'];
+     
+     }
+
    // create product
     function create(){
     
@@ -90,23 +119,44 @@ class Customer{
        $query = "UPDATE
                    " . $this->table_name . "
                SET
-                    NamaBidang=:NamaBidang, 
-                    KepalaBagian=:KepalaBagian                  
+                    Name=:Name, 
+                    CustomerType=:CustomerType, 
+                    ContactName=:ContactName, 
+                    Phone1=:Phone1, 
+                    Phone2=:Phone2, 
+                    Handphone=:Handphone, 
+                    Address=:Address, 
+                    Email=:Email, 
+                    CityID=:CityID                  
                WHERE
-                   IdBidang = :IdBidang";
+                   Id = :Id";
     
        // prepare query statement
        $stmt = $this->conn->prepare($query);
     
        // sanitize
-       $this->IdBidang=htmlspecialchars(strip_tags($this->IdBidang));
-       $this->NamaBidang=htmlspecialchars(strip_tags($this->NamaBidang));
-       $this->KepalaBagian=htmlspecialchars(strip_tags($this->KepalaBagian));
-    
-       // bind new values
-       $stmt->bindParam(":IdBidang", $this->IdBidang);
-       $stmt->bindParam(":NamaBidang", $this->NamaBidang);
-       $stmt->bindParam(":KepalaBagian", $this->KepalaBagian);
+       $this->Id=htmlspecialchars(strip_tags($this->Id));
+       $this->Name=htmlspecialchars(strip_tags($this->Name));
+       $this->CustomerType=htmlspecialchars(strip_tags($this->CustomerType));
+       $this->ContactName=htmlspecialchars(strip_tags($this->ContactName));
+       $this->Phone1=htmlspecialchars(strip_tags($this->Phone1));
+       $this->Phone2=htmlspecialchars(strip_tags($this->Phone2));
+       $this->Handphone=htmlspecialchars(strip_tags($this->Handphone));
+       $this->Address=htmlspecialchars(strip_tags($this->Address));
+       $this->Email=htmlspecialchars(strip_tags($this->Email));
+       $this->CityID=htmlspecialchars(strip_tags($this->CityID));
+      
+       // bind values
+       $stmt->bindParam(":Id", $this->Id);
+       $stmt->bindParam(":Name", $this->Name);
+       $stmt->bindParam(":CustomerType", $this->CustomerType);
+       $stmt->bindParam(":ContactName", $this->ContactName);
+       $stmt->bindParam(":Phone1", $this->Phone1);
+       $stmt->bindParam(":Phone2", $this->Phone2);
+       $stmt->bindParam(":Handphone", $this->Handphone);
+       $stmt->bindParam(":Address", $this->Address);
+       $stmt->bindParam(":Email", $this->Email);
+       $stmt->bindParam(":CityID", $this->CityID);
     
        // execute the query
        if($stmt->execute()){

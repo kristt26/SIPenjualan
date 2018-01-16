@@ -7,6 +7,7 @@ header("Content-Type: application/json; charset=UTF-8");
 include_once '../../api/config/database.php';
 include_once '../../api/objects/Invoice.php';
 include_once '../../api/objects/InvoiceDetail.php';
+include_once '../../api/objects/Customer.php';
  
 // instantiate database and product object
 $database = new Database();
@@ -16,6 +17,8 @@ $db = $database->getConnection();
 $invoice = new Invoice($db);
 
 $invoicedetail = new InvoiceDetail($db);
+
+$customer = new Customer($db);
  
 // query products
 $stmtInvoice = $invoice->read();   
@@ -36,6 +39,9 @@ if($numInv>0){
         // this will make $row['name'] to
         // just $name only
         extract($rowInv);
+        $customer->Id=$CustomerId;
+        $customer->readOne();
+
  
         $invoice_item=array(
             "Id" => $Id,
@@ -46,10 +52,11 @@ if($numInv>0){
             "InvoicePayType" => $InvoicePayType,
             "CreateDate" => $CreateDate,
             "PaidDate" => $PaidDate,
-            "InvoiceDetai"=>array()
+            "CustomerName"=>$customer->Name,
+            "InvoiceDetail"=>array()
         );
         $invoicedetail->InvoiceId=$Id; 
-        $stmtInvDet=$invoicedetail->readBySTT();
+        $stmtInvDet=$invoicedetail->readByInvoice();
         while ($rowInvDet = $stmtInvDet->fetch(PDO::FETCH_ASSOC)){
             extract($rowInvDet);
 
@@ -58,7 +65,7 @@ if($numInv>0){
                 "InvoiceId" => $InvoiceId,
                 "STT" => $STT
             );      
-            array_push($invoice_item["InvoiceDetai"],$invoiceDet_item);              
+            array_push($invoice_item["InvoiceDetail"],$invoiceDet_item);              
         }
         array_push($invoice_arr["records"], $invoice_item);        
     }

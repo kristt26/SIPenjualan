@@ -2,6 +2,9 @@
 // required headers
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Max-Age: 3600");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
  
 // include database and object files
 include_once '../../api/config/database.php';
@@ -19,17 +22,36 @@ $penjualan = new Penjualan($db);
 $customer = new Customer($db);
 
 $city = new City($db);
- 
+
+// get posted data
+session_start();
+
+$a = new DateTime($_SESSION['TglAwal']);
+$aa=str_replace('-', '/', $a->format('Y-m-d'));
+$aaa = date('Y-m-d',strtotime($aa . "+1 days"));
+$b = new DateTime($_SESSION['TglAkhir']);
+$bb=str_replace('-', '/', $b->format('Y-m-d'));
+$bbb = date('Y-m-d',strtotime($bb . "+1 days"));
+
+$penjualan->IsPaid=$_SESSION['IsPaid'];
+$penjualan->TglAwal=$aaa;
+$penjualan->TglAkhir=$bbb;
+
 // query products
-$stmt = $penjualan->read();   
+$stmt = $penjualan->readByDate();   
 $num = $stmt->rowCount();
  
 // check if more than 0 record found
 if($num>0){
+
+    $DataLaporan=array(
+        "TglAwal"=>$penjualan->TglAwal,
+        "TglAkhir"=>$penjualan->TglAkhir,
+        "IsPaid"=>$penjualan->IsPaid,
+        "penjualan"=>array()
+    );
  
-    // products array
-    $penjualan_arr=array();
-    $penjualan_arr["records"]=array();
+    
  
     // retrieve our table contents
     // fetch() is faster than fetchAll()
@@ -75,15 +97,15 @@ if($num>0){
             "CreateDate" => $CreateDate 
         );
  
-        array_push($penjualan_arr["records"], $penjualan_item);
+        array_push($DataLaporan["penjualan"], $penjualan_item);
     }
  
-    echo json_encode($penjualan_arr);
+    echo json_encode($DataLaporan);
 }
  
 else{
     echo json_encode(
-        array("message" => "No City found.")
+        array("message" => "'$penjualan->TglAwal.$penjualan->IsPaid.$penjualan->TglAkhir'")
     );
 }
 ?>

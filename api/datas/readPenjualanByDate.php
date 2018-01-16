@@ -19,9 +19,23 @@ $penjualan = new Penjualan($db);
 $customer = new Customer($db);
 
 $city = new City($db);
- 
+
+// get posted data
+$data =json_decode(file_get_contents("php://input"));
+
+$a = new DateTime($data->TglAwal);
+$aa=str_replace('-', '/', $a->format('Y-m-d'));
+$aaa = date('Y-m-d',strtotime($aa . "+1 days"));
+$b = new DateTime($data->TglAkhir);
+$bb=str_replace('-', '/', $b->format('Y-m-d'));
+$bbb = date('Y-m-d',strtotime($bb . "+1 days"));
+
+$penjualan->IsPaid=$data->IsPaid;
+$penjualan->TglAwal=$aaa;
+$penjualan->TglAkhir=$bbb;
+
 // query products
-$stmt = $penjualan->read();   
+$stmt = $penjualan->readByDate();   
 $num = $stmt->rowCount();
  
 // check if more than 0 record found
@@ -83,7 +97,7 @@ if($num>0){
  
 else{
     echo json_encode(
-        array("message" => "No City found.")
+        array("message" => "'$penjualan->TglAwal.$penjualan->IsPaid.$penjualan->TglAkhir'")
     );
 }
 ?>

@@ -21,6 +21,7 @@
                             <th>Kota Pengirim</th>
                             <th>Kota Penerima</th>
                             <th>Harga</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,7 +35,7 @@
                             <td>{{item.ToCityName}}</td>
                             <td>{{item.Price}}</td>
                             <td>
-                                <button type="button" ng-click="SelectedUser(item)" class="btn btn-default waves-effect m-r-20 pull-right" data-toggle="modal" data-target="#EditCity"><i class="material-icons">edit</i></button>
+                                <button type="button" ng-click="SelectedPrice(item)" class="btn btn-default waves-effect m-r-20 pull-left" data-toggle="modal" data-target="#EditCity"><i class="material-icons">edit</i></button>
                             </td>
                         </tr>
                     </tbody>
@@ -115,30 +116,51 @@
                 <div class="row clearfix">
                     <div class="col-sm-12">
                         <div class="form-group">
+                            <label>Pengirim</label>
                             <div class="form-line">
-                                <input type="text" ng-model="SelectedItemCity.Province" class="form-control" placeholder="Provinsi" />
+                                <select class="form-control" ng-options="item as item.Name for item in DataCustomer track by item.Id" ng-model="SelectedShiper"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Penerima</label>
+                            <div class="form-line">
+                                <select class="form-control" ng-options="item as item.Name for item in DataCustomer track by item.Id" ng-model="SelectedReciver"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Jenis Port</label>
+                            <div class="form-line">
+                                <select class="form-control" ng-options="item as item.port for item in PortType track by item.port" ng-model="SelectedPort"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Jenis Pembayaran</label>
+                            <div class="form-line">
+                                <select class="form-control" ng-options="item as item.pay for item in PayType track by item.pay" ng-model="SelectedPay"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Kota Asal</label>
+                            <div class="form-line">
+                                <select class="form-control" ng-options="item as item.CityName for item in DataCity track by item.Id" ng-model="SelectedFromCity"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Kota Tujuan</label>
+                            <div class="form-line">
+                                <select class="form-control" ng-options="item as item.CityName for item in DataCity track by item.Id" ng-model="SelectedToCity"></select>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="form-line">
-                                <input type="text" ng-model="SelectedItemCity.Regency" class="form-control" placeholder="Kabupaten" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="form-line">
-                                <input type="text" ng-model="SelectedItemCity.CityName" class="form-control" placeholder="Nama Kota" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="form-line">
-                                <input type="text" ng-model="SelectedItemCity.CityCode" class="form-control" placeholder="Kode Kota" />
+                                <input type="text" ng-model="DataSelectedItem.Price" class="form-control" placeholder="Harga" />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" ng-click="UpdateDataCity()" class="btn btn-link waves-effect" data-dismiss="modal">SAVE CHANGES</button>
+                <button type="button" ng-click="UpdateDataPrice()" class="btn btn-link waves-effect" data-dismiss="modal">UPDATE</button>
                 <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
             </div>
         </div>

@@ -105,7 +105,7 @@
                         </label>
                         <div class="form-group">
                             <div class="form-line">
-                                <select class="form-control" ng-options="item as item.status for item in DataStatusPembayaran track by item.status" ng-model="DataInputPenjualan.PayType"></select>
+                                <select class="form-control" ng-options="item as item.status for item in DataStatusPembayaran track by item.status" ng-model="SelectedItemPayType"></select>
                             </div>
                         </div>
                     </div>
@@ -114,7 +114,7 @@
                         </label>
                         <div class="form-group">
                             <div class="form-line">
-                                <select class="form-control" ng-options="item as item.port for item in DataVia track by item.port" ng-model="DataInputPenjualan.PortType" ng-change="SetHarga()"></select>
+                                <select class="form-control" ng-options="item as item.port for item in DataVia track by item.port" ng-model="SelectedItemPortType" ng-change="SetHarga()"></select>
                             </div>
                         </div>
                     </div>
@@ -134,7 +134,7 @@
                     <div class="col-md-5">
                         <ul class="list-group">
                             <li class="list-group-item">Tarif
-                                <span class="badge bg-pink">{{DataInputPenjualan.Price.Price|currency:"Rp"}}</span>
+                                <span class="badge bg-pink">{{SelectedItemPrice.Price|currency:"Rp"}}</span>
                             </li>
                             <li class="list-group-item">Biaya
                                 <span class="badge bg-cyan">{{DataInputPenjualan.Biaya|currency:"Rp"}}</span>
