@@ -112,8 +112,10 @@
                                     window.location.href = '../../index.html';
                                 else if (response.data.Jabatan == "Bendahara")
                                     window.location.href = '../../bendahara.html';
-                                else
+                                else if (response.data.Jabatan == "Admin")
                                     window.location.href = '../../admin.html';
+                                else
+                                    alert("Password is wrong")
                             }, function(error) {
                                 alert(error.message);
                             })

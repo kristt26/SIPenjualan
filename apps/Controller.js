@@ -79,6 +79,68 @@ angular.module("Ctrl", [])
 
 })
 
+.controller("PasswordController", function($scope, $http, SessionService) {
+    $scope.Data = [];
+    $scope.ChangePassword = function() {
+
+        if ($scope.Data.Password == undefined && $scope.Data.ConfirmPassword != undefined) {
+            document.getElementById("password").focus();
+        } else if ($scope.Data.Password != undefined && $scope.Data.ConfirmPassword == undefined) {
+            document.getElementById("confirm").focus();
+        }
+        if ($scope.Data.Password != undefined && $scope.Data.ConfirmPassword != undefined) {
+            if ($scope.Data.Password != $scope.Data.ConfirmPassword) {
+                alert("Password is not the same");
+                document.getElementById("confirm").focus();
+            } else {
+                var Datasimpan = $scope.Data;
+                var UrlUbah = "api/datas/updatePassword.php"
+                $http({
+                        method: "post",
+                        url: UrlUbah,
+                        data: Datasimpan
+                    })
+                    .then(function(response) {
+                        if (response.data.message > 0) {
+                            Datasimpan.Id = response.data;
+                            $scope.DataUsers.push(angular.copy(Datasimpan));
+                            $scope.InputUser = {};
+                        }
+                    }, function(error) {
+                        alert(error.message);
+                    })
+
+
+                /*
+                var Data = $scope.Data;
+                $http({
+                    method: "post",
+                    url: Url,
+                    data: Data
+                }).then(function(response) {
+                    if (response.data.message == "Password Was Changed") {
+                        alert(response.data.message);
+                    } else {
+                        alert(response.data.message);
+                    }
+
+                }, function(error) {
+                    alert(error.message);
+                })*/
+
+            }
+        } else {
+            if ($scope.Data.Password != undefined) {
+                document.getElementById("password").focus();
+            } else if ($scope.Data.ConfirmPassword != undefined) {
+                document.getElementById("confirm").focus();
+            }
+        }
+
+    }
+
+})
+
 .controller("UserController", function($scope, $http, SessionService) {
     $scope.DataUsers = [];
     $scope.DataSelected = {};
@@ -117,6 +179,34 @@ angular.module("Ctrl", [])
             })
             .then(function(response) {
                 if (response.data.message > 0) {
+                    Datasimpan.Id = response.data;
+                    $scope.DataUsers.push(angular.copy(Datasimpan));
+                    $scope.InputUser = {};
+                }
+            }, function(error) {
+                alert(error.message);
+            })
+    }
+
+    $scope.UpdateDataUser = function() {
+        var UrlUsers = "api/datas/updateUsers.php";
+        $scope.DataSelected.Jabatan = $scope.SelectJabatan.Jabatan;
+        var Datasimpan = $scope.DataSelected;
+        $http({
+                method: "post",
+                url: UrlUsers,
+                data: Datasimpan
+            })
+            .then(function(response) {
+                if (response.data.message == "User Was Update") {
+                    angular.forEach($scope.DataUsers, function(value, key) {
+                        if (value.Id == Datasimpan.Id) {
+                            value.NamaPegawai = Datasimpan.Id;
+                            value.Kontak = Datasimpan.Kontak;
+                            value.Email = Datasimpan.Email;
+                            value.Jabatan = Datasimpan.Jabatan;
+                        }
+                    })
                     Datasimpan.Id = response.data;
                     $scope.DataUsers.push(angular.copy(Datasimpan));
                     $scope.InputUser = {};

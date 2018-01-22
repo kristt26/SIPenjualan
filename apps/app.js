@@ -63,6 +63,11 @@ angular.module("app", ["ngRoute", "Ctrl"])
         .when("/Laporan", {
             templateUrl: "apps/Views/Laporan.html",
             controller: "LaporanController"
+        })
+
+        .when("/Password", {
+            templateUrl: "apps/Views/Password.html",
+            controller: "PasswordController"
         });
     })
 
@@ -93,7 +98,6 @@ angular.module("app", ["ngRoute", "Ctrl"])
 .factory("SessionService", function($http, $rootScope) {
     var service = {};
     $rootScope.Session = {};
-    var Getauth = "api/datas/auth.php";
     var Getauth = "api/datas/auth.php";
     $http({
             method: "get",

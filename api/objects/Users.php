@@ -101,7 +101,7 @@ class Users{
                     NamaPegawai=:NamaPegawai, 
                     Kontak=:Kontak,
                     Email=:Email,
-                    Password=:Password                  
+                    Jabatan=:Jabatan 
                WHERE
                    Id = :Id";
     
@@ -113,14 +113,14 @@ class Users{
        $this->NamaPegawai=htmlspecialchars(strip_tags($this->NamaPegawai));
        $this->Kontak=htmlspecialchars(strip_tags($this->Kontak));
        $this->Email=htmlspecialchars(strip_tags($this->Email));
-       $this->Password=htmlspecialchars(strip_tags($this->Password));
+       $this->Jabatan=htmlspecialchars(strip_tags($this->Jabatan));
     
        // bind new values
        $stmt->bindParam(":Id", $this->Id);
        $stmt->bindParam(":NamaPegawai", $this->NamaPegawai);
        $stmt->bindParam(":Kontak", $this->Kontak);
        $stmt->bindParam(":Email", $this->Email);
-       $stmt->bindParam(":Password", $this->Password);
+       $stmt->bindParam(":Jabatan", $this->Jabatan);
     
        // execute the query
        if($stmt->execute()){
@@ -129,6 +129,36 @@ class Users{
            return false;
        }
    }
+
+
+   function updatePassword(){
+    
+    // update query
+    $query = "UPDATE
+                " . $this->table_name . "
+            SET
+                 Password=:Password 
+            WHERE
+                Id = :Id";
+ 
+    // prepare query statement
+    $stmt = $this->conn->prepare($query);
+ 
+    // sanitize
+    $this->Id=htmlspecialchars(strip_tags($this->Id));
+    $this->Password=htmlspecialchars(strip_tags($this->Password));
+ 
+    // bind new values
+    $stmt->bindParam(":Id", $this->Id);
+    $stmt->bindParam(":Password", $this->Password);
+ 
+    // execute the query
+    if($stmt->execute()){
+        return true;
+    }else{
+        return false;
+    }
+}
 
    // delete the Bidang
    function delete(){
