@@ -38,7 +38,7 @@
                                         </a>
                                         <ul class="dropdown-menu pull-right">
                                             <li>
-                                                <button type="button" ng-click="SelectedEdit(item)" class="btn btn-default waves-effect m-r-20 pull-right" data-toggle="modal" data-target="#EditCity"><i class="material-icons">edit</i></button>
+                                                <button type="button" ng-show="item.InvoiceStatus!='Paid'" ng-click="SelectedEdit(item)" class="btn btn-default waves-effect m-r-20 pull-right" data-toggle="modal" data-target="#EditCity"><i class="material-icons">edit</i></button>
                                             </li>
                                             <li>
                                                 <button type="button" ng-click="Print(item)" class="btn btn-default waves-effect m-r-20 pull-right"><i class="material-icons">print</i></button>
@@ -122,6 +122,7 @@
             <div class="modal-footer">
                 <button type="button" ng-click="UpdateData()" class="btn btn-link waves-effect" data-dismiss="modal">Update</button>
                 <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+
             </div>
         </div>
     </div>

@@ -859,7 +859,7 @@ angular.module("Ctrl", [])
             .then(function(response) {
                 angular.forEach(response.data.STT, function(Value, Key) {
                     angular.forEach(Data.STT, function(Val, NewKey) {
-
+                        window.location.href = 'bendahara.html#!/Invoice';
                     })
                 })
                 $scope.Datasinvoice = Data;
@@ -905,6 +905,7 @@ angular.module("Ctrl", [])
                         if (value.Id == Data.Id) {
                             value.InvoiceStatus = Data.Paid;
                             value.PaidDate = Data.PayDate;
+                            window.location.reload();
                         }
                     })
                     alert("Invoice Was Update");
