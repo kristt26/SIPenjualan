@@ -9,7 +9,6 @@ angular.module("Ctrl", [])
 
         //Get Auth
 
-        $scope.Title = "Ini Judul Dari Controller";
     }
 })
 
