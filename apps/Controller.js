@@ -720,6 +720,7 @@ angular.module("Ctrl", [])
     $scope.DataStatus = [{ status: 'Paid' }, { status: 'Pending' }, { status: 'Cancel' }];
     $scope.SelectedItemPay = {};
     $scope.DataUbah = {};
+    $scope.ViewData = {};
     $scope.SelectedDataStatus = {};
     $scope.Init = function() {
         var Getinv = "api/datas/readInvoices.php";
@@ -884,6 +885,23 @@ angular.module("Ctrl", [])
             })
 
     }
+
+    $scope.SelectedView = function(item) {
+        var Data = item;
+        var UrlCetak = "api/datas/readPenjualanBySTT.php";
+        $http({
+                method: "post",
+                url: UrlCetak,
+                data: Data
+            })
+            .then(function(response) {
+                $scope.ViewData = response.data.records;
+            }, function(error) {
+                alert(error.message);
+            })
+
+    }
+
 
     $scope.SelectedEdit = function(item) {
         $scope.DataUbah = item;

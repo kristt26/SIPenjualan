@@ -41,6 +41,9 @@
                                                 <button type="button" ng-show="item.InvoiceStatus!='Paid'" ng-click="SelectedEdit(item)" class="btn btn-default waves-effect m-r-20 pull-right" data-toggle="modal" data-target="#EditCity"><i class="material-icons">edit</i></button>
                                             </li>
                                             <li>
+                                                <button type="button" ng-click="SelectedView(item)" class="btn btn-default waves-effect m-r-20 pull-right" data-toggle="modal" data-target="#View"><i class="material-icons">list</i></button>
+                                            </li>
+                                            <li>
                                                 <button type="button" ng-click="Print(item)" class="btn btn-default waves-effect m-r-20 pull-right"><i class="material-icons">print</i></button>
                                             </li>
                                         </ul>
@@ -123,6 +126,47 @@
                 <button type="button" ng-click="UpdateData()" class="btn btn-link waves-effect" data-dismiss="modal">Update</button>
                 <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
 
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="View" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="defaultModalLabel">Penjualan</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row clearfix">
+                    <div class="col-sm-12">
+                        <div class="body table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>STT</th>
+                                        <th>Nama Pengirim</th>
+                                        <th>Nama Penerima</th>
+                                        <th>Tanggal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in ViewData">
+                                        <th scope="row">{{$index+1}}</th>
+                                        <td>{{item.STT}}</td>
+                                        <td>{{item.ShiperName}}</td>
+                                        <td>{{item.ReciverName}}</td>
+                                        <td>{{item.CreateDate}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
             </div>
         </div>
     </div>
