@@ -455,6 +455,49 @@ angular.module("Ctrl", [])
                 alert(error.message);
             })
     }
+
+    $scope.InsertPrice = function() {
+        $scope.InputPrice.ShiperId = $scope.SelectedItemCustomerAsal.Id;
+        $scope.InputPrice.ReciverId = $scope.SelectedItemCustomerTujuan.Id;
+        $scope.InputPrice.FromCity = $scope.SelectedItemCityAsal.Id;
+        $scope.InputPrice.ToCity = $scope.SelectedItemCityTujuan.Id;
+        $scope.InputPrice.PortType = $scope.SelectedItemPortType.port;
+        $scope.InputPrice.PayType = $scope.SelectedItemPayType.status;
+        var Data = angular.copy($scope.InputPrice);
+        var UrlInserPrice = "api/datas/createPrice.php";
+        $http({
+                method: "post",
+                url: UrlInserPrice,
+                data: Data
+            })
+            .then(function(response) {
+                if (response.data.message != "Unable to create Price") {
+                    Data.Id = response.data.message;
+                    $scope.SelectedItemPrice = Data;
+                    $scope.DataInputPenjualan.Biaya = parseInt($scope.SelectedItemPrice.Price) * parseInt($scope.DataInputPenjualan.Weight);
+                    $scope.DataInputPenjualan.TotalSementara = parseInt($scope.SelectedItemPrice.Price) * parseInt($scope.DataInputPenjualan.Weight);
+                    $scope.DataInputPenjualan.Total = angular.copy($scope.DataInputPenjualan.TotalSementara);
+                    $scope.DataInputPenjualan.Price = $scope.SelectedItemPrice.Price;
+
+                } else
+                    alert(response.data.message);
+            }, function(error) {
+                alert(error.message);
+            });
+        //$scope.InputPrice = {};
+        //$scope.SelectedShiper = {};
+        //$scope.SelectedReciver = {};
+        //$scope.SelectedFromCity = {};
+        //$scope.SelectedToCity = {};
+        //$scope.SelectedPort = {};
+        //$scope.SelectedPay = {};
+    }
+    $scope.Close = function() {
+        $location.path("/Penjualan");
+    }
+
+
+
     $scope.Packing = function() {
         if ($scope.DataInputPenjualan.PackingCosts == "" || $scope.DataInputPenjualan.PackingCosts == "0") {
             $scope.DataInputPenjualan.PackingCosts = "0";

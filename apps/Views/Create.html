@@ -13,6 +13,7 @@
                                 <input type="text" class="form-control" ng-model="DataInputPenjualan.STT" disabled>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -130,7 +131,9 @@
                     </div>
                 </div>
 
+
                 <div class="row clearfix">
+                    <button ng-show="SelectedItemPrice==null" type="button" class="btn btn-default waves-effect m-r-20 pull-right" data-toggle="modal" data-target="#AddPrice">Add Prices</button>
                     <div class="col-md-5">
                         <ul class="list-group">
                             <li class="list-group-item">Tarif
@@ -169,8 +172,69 @@
 
                 <div class="modal-footer">
                     <button type="button" ng-click="InsertPenjualan()" class="btn btn-link waves-effect" data-dismiss="modal">SAVE CHANGES</button>
-                    <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+                    <a href="#!Penjualan" class="btn btn-link waves-effect"> CLOSE</a>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="AddPrice" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="defaultModalLabel">Add Price</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row clearfix">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>Pengirim</label>
+                            <div class="form-line">
+                                <select class="form-control" ng-options="item as item.Name for item in DataCustomer track by item.Id" ng-model="SelectedItemCustomerAsal" disabled></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Penerima</label>
+                            <div class="form-line">
+                                <select class="form-control" ng-options="item as item.Name for item in DataCustomer track by item.Id" ng-model="SelectedItemCustomerTujuan" disabled></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Jenis Port</label>
+                            <div class="form-line">
+                                <select class="form-control" ng-options="item as item.port for item in DataVia track by item.port" ng-model="SelectedItemPortType" disabled></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Jenis Pembayaran</label>
+                            <div class="form-line">
+                                <select class="form-control" ng-options="item as item.status for item in DataStatusPembayaran track by item.status" ng-model="SelectedItemPayType" disabled></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Kota Asal</label>
+                            <div class="form-line">
+                                <select class="form-control" ng-options="item as item.CityCode for item in DataCity track by item.Id" ng-model="SelectedItemCityAsal" disabled></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Kota Tujuan</label>
+                            <div class="form-line">
+                                <select class="form-control" ng-options="item as item.CityCode for item in DataCity track by item.Id" ng-model="SelectedItemCityTujuan" disabled></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" ng-model="InputPrice.Price" class="form-control" placeholder="Harga" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" ng-click="InsertPrice()" class="btn btn-link waves-effect" data-dismiss="modal">SAVE</button>
+                <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
             </div>
         </div>
     </div>
